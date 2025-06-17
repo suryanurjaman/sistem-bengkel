@@ -12,8 +12,22 @@
 @section('content')
 
     <!-- Banner -->
-    <div class="banner">
-        <img src="{{ asset('img/Banner.jpeg') }}" alt="Banner">
+    <!-- Banner -->
+    <div class="banner" x-data="{
+        current: 0,
+        images: [
+            '{{ asset('img/Banner.jpeg') }}',
+            '{{ asset('img/Banner2.jpg') }}',
+        ],
+        next() {
+            this.current = (this.current + 1) % this.images.length;
+        },
+        start() {
+            setInterval(() => this.next(), 5000);
+        }
+    }" x-init="start()">
+        <img :src="images[current]" alt="Banner">
+
         <div class="overlay">
             <h1>SELAMAT DATANG DI BENGKEL SAHABAT MOTOR PAIJO</h1>
             <h2>“Perawatan Terbaik untuk Kendaraan Anda!”</h2>
@@ -27,16 +41,18 @@
         </div>
     </div>
 
-    <!-- Kenali Bengkel -->
+
+    <!-- Judul dan Deskripsi -->
     <div class="text-center">
-        <h2>Kenali Bengkel Sahabat Motor Paijo</h2>
+        <h2 class="title">Kenali Bengkel Sahabat Motor Paijo</h2>
         <p>Bengkel Terpercaya untuk Kendaraan Anda</p>
     </div>
+
     <div class="container">
         <div class="logo-container">
             <img src="{{ asset('img/Banner Sahabat Motor.jpeg') }}" alt="Logo Bengkel Sahabat Motor" class="logo-bengkel">
         </div>
-        <div class="description">
+        <div class="description gap-4">
             <p>Sahabat Motor adalah bengkel terpercaya yang menyediakan layanan perawatan dan perbaikan kendaraan dengan
                 mekanik berpengalaman dan teknologi terkini.</p>
             <p>Kami menawarkan berbagai layanan, mulai dari servis rutin, ganti oli, tune-up, hingga perbaikan besar untuk
@@ -48,12 +64,13 @@
 
     <!-- Layanan Kami -->
     <div class="text-center">
-        <h2>Layanan Kami</h2>
+        <h2 class="title">Layanan Kami</h2>
         <p>Kami menyediakan berbagai layanan perawatan dan perbaikan motor agar kendaraan Anda tetap dalam kondisi prima dan
             nyaman digunakan.</p>
     </div>
+
     <div class="grid-container">
-        @foreach ($kategoriLayanan as $kategori)
+        @foreach ($kategoriLayanan->take(3) as $kategori)
             <div class="grid-item">
                 <h4><i class="fas fa-tools"></i> {{ $kategori->nama_kategori }}</h4>
                 <p>{{ $kategori->deskripsi }}</p>
@@ -74,9 +91,10 @@
         @endforeach
     </div>
 
+
     <!-- Keunggulan -->
     <div class="text-center">
-        <h2>Kenapa harus memilih Bengkel Sahabat Motor Paijo?</h2>
+        <h2 class="title">Kenapa harus memilih Bengkel Sahabat Motor Paijo?</h2>
         <p>Kami berkomitmen memberikan pelayanan terbaik untuk kendaraan Anda dengan standar profesional. Keamanan dan
             kenyamanan berkendara adalah prioritas utama kami!</p>
     </div>
@@ -113,27 +131,27 @@
 
     <!-- Dokumentasi -->
     <div class="text-center">
-        <h2>Dokumentasi Pengerjaan Servis</h2>
+        <h2 class="title">Dokumentasi Pengerjaan Servis</h2>
         <p>Berikut dokumentasi proses pengerjaan servis di Bengkel Sahabat Motor Paijo.</p>
     </div>
     <div class="grid-container-dokumentasi">
         <div class="grid-item-dokumentasi">
-            <img src="{{ asset('img/tone up.jpg') }}" alt="Dokumentasi 1" class="img-dokumentasi">
+            <img src="{{ asset('img/job1.jpg') }}" alt="Dokumentasi 1" class="img-dokumentasi">
             <p>Proses pengecekan mesin</p>
         </div>
         <div class="grid-item-dokumentasi">
-            <img src="{{ asset('img/tone up.jpg') }}" alt="Dokumentasi 2" class="img-dokumentasi">
+            <img src="{{ asset('img/job2.jpg') }}" alt="Dokumentasi 2" class="img-dokumentasi">
             <p>Penggantian oli</p>
         </div>
         <div class="grid-item-dokumentasi">
-            <img src="{{ asset('img/tone up.jpg') }}" alt="Dokumentasi 3" class="img-dokumentasi">
+            <img src="{{ asset('img/job3.jpg') }}" alt="Dokumentasi 3" class="img-dokumentasi">
             <p>Pemeriksaan rem</p>
         </div>
     </div>
 
     <!-- Ayo Servis -->
     <div class="servis-section text-center">
-        <h4>Ayo, rawat motor Anda dengan servis terbaik!</h4>
+        <h2 class="title">Ayo, rawat motor Anda dengan servis terbaik!</h2>
         <p>Pastikan performa motor selalu optimal dengan perawatan berkala di Sahabat Motor Paijo.<br>🔧 Servis sekarang dan
             rasakan kenyamanan berkendara!</p>
         @auth('pelanggan')

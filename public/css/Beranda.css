@@ -235,6 +235,14 @@ nav {
 /* Kelas untuk memusatkan teks di berbagai elemen */
 .text-center {
     text-align: center; /* Memusatkan teks */
+    margin-top: 50px; /* Jarak atas untuk pemisahan dari elemen lain */
+}
+
+.title {
+    font-size: 36px; /* Ukuran font untuk judul */
+    font-weight: bold; /* Teks tebal untuk penekanan */
+    margin-bottom: 20px; /* Jarak bawah untuk pemisahan */
+    color: #333; /* Warna teks gelap untuk keterbacaan */
 }
 
 /* Deskripsi umum dengan batas lebar maksimal dan jarak antar baris */
