@@ -1,0 +1,154 @@
+/* Mengatur tampilan body */
+body {
+    font-family: Arial, sans-serif; /* Mengatur jenis huruf */
+    background: linear-gradient(to bottom, #fff 65%, #00A86B 35%); /* Gradien latar belakang */
+    background-repeat: no-repeat; /* Mencegah pengulangan background */
+    background-attachment: fixed; /* Background tetap saat discroll */
+    margin: 0; /* Menghilangkan margin bawaan */
+    padding: 0; /* Menghilangkan padding bawaan */
+    display: flex; /* Menjadikan kontainer fleksibel */
+    justify-content: center; /* Konten ditengah secara horizontal */
+    align-items: center; /* Konten ditengah secara vertikal */
+    height: 100vh; /* Tinggi layar penuh */
+    position: relative; /* Untuk posisi elemen absolut di dalamnya */
+}
+
+/* Mengatur posisi logo di kiri atas */
+.logo-top-left {
+    position: absolute; /* Posisi absolut terhadap body */
+    top: 20px; /* Jarak dari atas */
+    left: 20px; /* Jarak dari kiri */
+}
+
+/* Ukuran logo */
+.logo-top-left img {
+    width: 80px; /* Lebar logo */
+}
+
+/* Container utama (kartu login) */
+.container {
+    background-color: #fff; /* Warna latar putih */
+    border-radius: 10px; /* Sudut membulat */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Bayangan lembut */
+    padding: 50px; /* Ruang dalam */
+    width: 450px; /* Lebar container */
+    min-height: 470px; /* Tinggi minimum */
+    text-align: left; /* Teks rata kiri */
+    display: flex; /* Layout fleksibel */
+    flex-direction: column; /* Susun secara vertikal */
+    justify-content: center; /* Pusatkan isi secara vertikal */
+}
+
+/* Judul selamat datang */
+h3 {
+    font-weight: bold; /* Huruf tebal */
+    margin-bottom: 10px; /* Jarak bawah */
+    text-align: center; /* Rata tengah */
+}
+
+/* Paragraf umum (jika ada) */
+p {
+    font-size: 12px; /* Ukuran font kecil */
+    text-align: center; /* Rata tengah */
+    margin-bottom: 50px; /* Jarak bawah */
+}
+
+/* Grup input (email/password) */
+.input-group {
+    margin-bottom: 20px; /* Jarak antar grup */
+    width: 100%; /* Lebar penuh */
+    text-align: left; /* Rata kiri */
+}
+
+/* Label input */
+.input-group label {
+    display: block; /* Tampilkan sebagai blok */
+    font-size: 15px; /* Ukuran font lebih besar */
+    margin-bottom: 5px; /* Jarak bawah label */
+}
+
+/* Input teks */
+.input-group input {
+    width: calc(100% - 30px); /* Lebar input dikurangi untuk ikon */
+    padding: 12px; /* Ruang dalam */
+    border: 1px solid #ccc; /* Garis tepi abu */
+    border-radius: 5px; /* Sudut membulat */
+    font-size: 15px; /* Ukuran font */
+}
+
+/* Wrapper untuk ikon dalam input */
+.input-group .input-icon {
+    position: relative; /* Posisi relatif untuk ikon absolut */
+}
+
+/* Input dalam input-icon diberi padding kiri */
+.input-group .input-icon input {
+    padding-left: 35px; /* Tambah ruang untuk ikon */
+}
+
+/* Ikon dalam input */
+.input-group .input-icon i {
+    position: absolute; /* Posisi absolut dalam input */
+    left: 10px; /* Jarak dari kiri */
+    top: 50%; /* Tengah vertikal */
+    transform: translateY(-50%); /* Tepat di tengah */
+}
+
+/* Teks lupa kata sandi */
+.forgot-password {
+    text-align: right; /* Rata kanan */
+    font-size: 13px; /* Ukuran font */
+    margin-bottom: 20px; /* Jarak bawah */
+}
+
+/* Link lupa kata sandi */
+.forgot-password a {
+    color: #000; /* Warna hitam */
+    text-decoration: none; /* Hilangkan garis bawah */
+}
+
+/* Hover pada link lupa kata sandi */
+.forgot-password a:hover {
+    text-decoration: underline; /* Garis bawah saat hover */
+}
+
+/* Tombol aksi seperti login/submit */
+.button {
+    display: block; /* Blok agar bisa atur width */
+    width: 100%; /* Tombol sepanjang kontainer */
+    background-color: #00A86B; /* Warna latar tombol */
+    border: none; /* Tanpa border */
+    color: #fff; /* Warna teks hitam */
+    padding: 12px; /* Ruang dalam */
+    text-align: center; /* Teks di tengah */
+    text-decoration: none; /* Tidak bergaris bawah */
+    font-size: 16px; /* Ukuran teks */
+    font-weight: bold; /* Teks tebal */
+    cursor: pointer; /* Pointer saat hover */
+    border-radius: 5px; /* Sudut membulat */
+    transition: background-color 0.3s ease, color 0.3s ease; /* Efek transisi hover */
+    margin-top: 1px; /* Jarak dari atas */
+}
+
+/* Hover pada tombol masuk */
+.button:hover {
+    background-color: #000; /* Ganti warna saat hover */
+}
+
+/* Teks bagian daftar akun */
+.register {
+    margin-top: 25px; /* Jarak atas */
+    font-size: 15px; /* Ukuran font */
+    text-align: center; /* Rata tengah */
+}
+
+/* Link daftar akun */
+.register a {
+    color: #50C878; /* Warna hijau muda */
+    text-decoration: none; /* Tanpa garis bawah */
+}
+
+/* Hover pada link daftar akun */
+.register a:hover {
+    text-decoration: underline; /* Tambahkan garis bawah saat hover */
+}

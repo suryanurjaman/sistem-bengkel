@@ -1,0 +1,332 @@
+body {
+    margin: 0; /* Menghapus margin default dari elemen */
+    font-family: 'Roboto', sans-serif; /* Mengatur jenis huruf menjadi 'Roboto' dengan fallback ke sans-serif */
+}
+
+ /* Header dengan ikon telepon dan Instagram */
+ .header {
+    background-color: #00A86B; /* Mengatur warna latar belakang elemen */
+    color:#fff ; /* Mengatur warna teks menjadi putih */
+    padding: 5px 20px; /* Menambahkan ruang 5 piksel di atas/bawah dan 20 piksel di kiri/kanan */
+    display: flex; /* Mengaktifkan layout fleksibel untuk elemen anak */
+    justify-content: flex-end; /* Mendistribusikan elemen anak ke sisi kanan kontainer */
+    align-items: center; /* Menyelaraskan elemen anak secara vertikal ke tengah kontainer */
+}
+
+.contact {
+    align-items: center; /* Menyelaraskan elemen anak secara vertikal ke tengah kontainer */
+    font-size: 14px; /* Mengatur ukuran font menjadi 14 piksel */
+}
+
+.contact i {
+    margin-right: 10px; /* Menambahkan margin kanan sebesar 10 piksel */
+}
+    
+/* Navbar */
+nav {
+    background-color: #fff; /* Mengatur warna latar belakang navbar menjadi putih */
+    padding: 10px 20px; /* Memberikan ruang di dalam navbar (atas/bawah 10px, kiri/kanan 20px) */
+    display: flex; /* Menggunakan flexbox untuk tata letak navbar */
+    justify-content: center; /* Mempusatkan konten navbar secara horizontal */
+    align-items: center; /* Menyelaraskan konten secara vertikal di tengah */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Menambahkan bayangan pada navbar */
+}
+
+/* Logo */
+.logo {
+    width: 56px; /* Mengatur lebar logo */
+    height: auto; /* Menjaga proporsi tinggi logo secara otomatis */
+    margin-right: 100px; /* Memberikan jarak antara logo dan menu */
+}
+
+/* Menu */
+.menu {
+    list-style: none; /* Menghapus penanda daftar default */
+    margin: 0; /* Menghapus margin default */
+    padding: 0; /* Menghapus padding default */
+    display: flex; /* Menggunakan flexbox untuk tata letak menu */
+    align-items: center; /* Menyelaraskan item menu secara vertikal */
+}
+
+.menu li {
+    margin-right: 15px; /* Memberikan jarak antara item menu */
+}
+
+.menu li a {
+    text-decoration: none; /* Menghapus garis bawah dari tautan */
+    color: #000; /* Mengatur warna teks menjadi hitam */
+    font-size: 14px; /* Mengatur ukuran font item menu */
+    font-weight: bold; /* Menjadikan teks item menu tebal */
+    padding: 10px 15px; /* Memberikan ruang di dalam tautan (atas/bawah 10px, kiri/kanan 15px) */
+}
+
+/* Hover efek */
+.menu li a:hover {
+    background-color: #50C878; /* Mengubah warna latar belakang saat hover */
+    color: #FFF; /* Mengubah warna teks menjadi putih saat hover */
+    border-radius: 5px; /* Membuat sudut border menjadi melengkung */
+}
+
+/* Kotak di sekitar Masuk/Daftar */
+.menu li.Masuk-Daftar a {
+    border: 2px solid #000; /* Menambahkan batas hitam pada tautan Donasi dan Kontak */
+    border-radius: 5px; /* Membuat sudut batas menjadi melengkung */
+}
+
+.menu li.Masuk-Daftar a:hover {
+    background-color: #50C878; /* Mengubah latar belakang saat hover pada tautan Donasi dan Kontak */
+    color: #FFF; /* Mengatur warna teks menjadi hitam saat hover */
+}
+
+/* Responsif */
+.hamburger {
+    display: none; /* Menyembunyikan tombol hamburger pada tampilan desktop */
+    font-size: 24px; /* Mengatur ukuran font tombol hamburger */
+    cursor: pointer; /* Mengubah kursor menjadi pointer saat hover */
+    position: absolute; /* Menempatkan tombol hamburger secara absolut */
+    top: 50%; /* Memposisikan tombol hamburger di tengah vertikal navbar */
+    right: 20px; /* Mengatur jarak tombol hamburger dari kanan */
+    transform: translateY(-50%); /* Memindahkan tombol hamburger ke atas agar tepat di tengah */
+    z-index: 1000; /* Menempatkan tombol hamburger di atas elemen lain */
+}
+
+@media (max-width: 768px) {
+    nav {
+        flex-direction: column; /* Mengubah tata letak navbar menjadi kolom pada layar kecil */
+        align-items: center; /* Mempusatkan item navbar secara horizontal */
+    }
+
+    .hamburger {
+        display: block; /* Menampilkan tombol hamburger pada tampilan mobile */
+        position: fixed; /* Menjaga tombol tetap di posisi yang sama saat di-scroll */
+        right: 20px;
+        top: 70px; /* Mengatur posisi tombol sedikit ke bawah agar tidak terlalu atas */
+        z-index: 1000; /* Tetap di atas menu */
+    }
+
+    .menu {
+        display: none; /* Menyembunyikan menu pada tampilan mobile secara default */
+        flex-direction: column; /* Mengubah tata letak menu menjadi kolom */
+        width: 90%; /* Mengurangi lebar menu agar tidak memenuhi seluruh layar */
+        align-items: center; /* Mempusatkan item menu secara horizontal */
+        margin: 20px auto; /* Memberikan jarak atas, bawah, dan kiri-kanan pada menu */
+        padding: 10px; /* Memberikan padding di dalam menu */
+        background-color: white; /* Tambahkan latar belakang agar menu terlihat jelas */
+        border-radius: 10px; /* Menambahkan radius agar menu tampak lebih kecil dan menarik */
+        
+        /* Animasi */
+        opacity: 0; /* Awal tidak terlihat */
+        transform: translateY(-20px); /* Awal geser ke atas */
+        transition: opacity 0.3s ease, transform 0.3s ease; /* Animasi transisi */
+    }
+
+    .menu.active {
+        display: flex; /* Menampilkan menu ketika tombol hamburger diklik */
+        position: fixed; /* Menjaga posisi menu tetap di layar */
+        top: 10px; /* Memberikan jarak dari atas layar */
+        left: 0;
+        right: 0;
+        margin: auto;
+        z-index: 999; /* Agar berada di bawah tombol hamburger */
+        overflow-y: auto; /* Mengaktifkan scroll jika menu panjang */
+        height: auto; /* Menyesuaikan tinggi menu */
+        max-height: 90vh; /* Membatasi tinggi maksimal menu */
+        
+        /* Animasi Aktif */
+        opacity: 1; /* Tampilkan menu */
+        transform: translateY(0); /* Geser posisi ke tempat asal */
+    }
+
+    .menu li {
+        margin: 5px 0; /* Memberikan jarak antara item menu saat dalam kolom */
+    }
+
+    .menu li.Masuk-Daftar {
+        margin-top: 25px; /* Jarak khusus untuk Donasi dan Kontak */
+    }
+}
+
+/* Kotak di sekitar Masuk/Daftar */
+.menu li.donasi-kontak a {
+    border: 2px solid #000; /* Memberikan garis tepi pada elemen dengan ketebalan 2 piksel, tipe solid, dan warna hitam */
+    border-radius: 5px; /* Membuat sudut elemen menjadi melengkung dengan radius 5 piksel */
+}
+
+.menu li.donasi-kontak a:hover {
+    background-color: #50C878; /* Mengubah warna latar belakang elemen menjadi hijau saat di-hover */
+    color: #000; /* Mengubah warna teks menjadi hitam saat di-hover */
+}
+
+/* Styling untuk Container Utama */
+.judul-container {
+    text-align: center; /* Memusatkan teks secara horizontal */
+}
+
+.container {
+    width: 90%; /* Mengatur lebar kontainer menjadi 90% dari lebar viewport */
+    max-width: 1200px; /* Membatasi lebar maksimum kontainer hingga 1200px */
+    margin: 0 auto; /* Memusatkan elemen secara horizontal */
+}
+
+/* Styling untuk Judul Utama */
+h1 {
+    text-align: center; /* Memusatkan teks secara horizontal */
+    font-size: 32px; /* Mengatur ukuran teks menjadi 32 piksel */
+    margin-bottom: 20px; /* Menambahkan jarak bawah sebesar 20 piksel */
+    color: #333; /* Mengatur warna teks menjadi abu-abu gelap */
+}
+
+/* Styling untuk Daftar Servis */
+.service-list {
+    display: flex; /* Mengatur elemen di dalamnya agar menggunakan tata letak fleksibel */
+    flex-direction: column; /* Menyusun elemen secara vertikal */
+}
+
+/* Styling untuk Item Servis */
+.service-item {
+    display: flex; /* Mengatur elemen di dalamnya agar menggunakan tata letak fleksibel */
+    align-items: flex-start; /* Mengatur elemen dalam baris agar sejajar di bagian atas */
+    border-bottom: 1px solid #ddd; /* Menambahkan garis bawah dengan warna abu-abu terang */
+    padding-bottom: 20px; /* Memberikan jarak dalam sebesar 20 piksel di bagian bawah elemen */
+    margin-bottom: 20px; /* Memberikan jarak antar elemen sebesar 20 piksel */
+}
+
+/* Styling untuk Gambar */
+.service-item img {
+    width: 150px; /* Mengatur lebar gambar menjadi 150 piksel */
+    height: 150px; /* Mengatur tinggi gambar menjadi 150 piksel */
+    object-fit: cover; /* Memastikan gambar tetap proporsional dan memenuhi kotak */
+    border-radius: 8px; /* Membuat sudut gambar menjadi melengkung dengan radius 8 piksel */
+    margin-right: 20px; /* Memberikan jarak horizontal sebesar 20 piksel antara gambar dan teks */
+}
+
+/* Styling untuk Informasi Servis */
+.service-info {
+    flex: 1; /* Membuat elemen ini menempati ruang yang tersisa dalam baris */
+}
+
+.service-info h2 {
+    font-size: 24px; /* Mengatur ukuran teks judul menjadi 24 piksel */
+    margin-bottom: 10px; /* Menambahkan jarak bawah sebesar 10 piksel */
+}
+
+.service-info p {
+    margin: 5px 0; /* Menambahkan jarak vertikal sebesar 5 piksel di atas dan bawah paragraf */
+    font-size: 14px; /* Mengatur ukuran teks paragraf menjadi 14 piksel */
+}
+
+/* Styling untuk Ajakan Servis */
+.servis {
+    text-align: center; /* Memusatkan teks secara horizontal */
+    margin-top: 30px; /* Memberikan jarak atas sebesar 30 piksel */
+    padding: 20px; /* Memberikan ruang dalam elemen sebesar 20 piksel */
+    border-radius: 10px; /* Membuat sudut elemen menjadi melengkung dengan radius 10 piksel */
+}
+
+.servis h4 {
+    font-size: 24px; /* Mengatur ukuran teks judul menjadi 24 piksel */
+    color: #333; /* Memberikan warna abu-abu gelap pada teks */
+    margin-bottom: 10px; /* Menambahkan jarak bawah sebesar 10 piksel */
+}
+
+.servis p {
+    font-size: 16px; /* Mengatur ukuran teks paragraf menjadi 16 piksel */
+    color: #555; /* Memberikan warna abu-abu pada teks */
+    margin-bottom: 20px; /* Menambahkan jarak bawah sebesar 20 piksel */
+}
+
+/* Tombol Booking */
+.servis .button {
+    background-color: #00A86B; /* Warna latar belakang tombol */
+    color: #fff; /* Warna teks */
+    padding: 10px 20px; /* Ruang di dalam tombol */
+    text-align: center; /* Menyelaraskan teks di tengah */
+    border: none; /* Menghapus batas */
+    border-radius: 5px; /* Membuat sudut melengkung */
+    font-size: 16px; /* Ukuran font dalam piksel */
+    font-weight: bold; /* Teks tebal */
+    cursor: pointer; /* Kursor pointer saat hover */
+    text-decoration: none; /* Menghilangkan garis bawah teks */
+    transition: background-color 0.3s ease; /* Efek transisi pada warna */
+}
+
+.servis .button:hover {
+    background-color: #000; /* Mengubah warna latar belakang tombol menjadi hitam saat di-hover */
+}
+
+/* Footer */
+footer {
+    background-color: #00A86B; /* Mengatur warna latar belakang elemen */
+    padding: 10px 0; /* Mengatur jarak dalam elemen secara vertikal */
+    text-align: center; /* Mengatur posisi teks di tengah elemen */
+}
+  
+footer .container {
+    display: flex; /* Mengatur tata letak fleksibel untuk elemen anak */
+    justify-content: space-between; /* Mengatur distribusi elemen dengan jarak di antara mereka */
+    align-items: flex-start; /* Menyelaraskan elemen anak di bagian atas */
+    max-width: 1200px; /* Mengatur lebar maksimum elemen */
+    margin: 0 auto; /* Mengatur elemen agar berada di tengah secara horizontal */
+}
+  
+footer .logo {
+    text-align: center; /* Mengatur posisi teks di tengah elemen */
+    margin-top: 10px; /* Mengatur jarak di bagian atas elemen */
+    flex: 1; /* Mengatur elemen agar fleksibel mengambil ruang */
+}
+  
+footer .logo img {
+    width: 80px; /* Mengatur lebar gambar logo */
+    height: auto; /* Mengatur tinggi gambar secara proporsional */
+}
+  
+footer .logo p {
+    margin-top: 5px; /* Mengatur jarak di bagian atas paragraf */
+    font-size: 12px; /* Mengatur ukuran teks */
+}
+  
+footer .info-kontak,
+footer .navigasi-cepat {
+    text-align: left; /* Mengatur posisi teks ke kiri */
+    flex: 1; /* Membuat elemen fleksibel untuk mengambil ruang */
+    margin-left: 40px; /* Menambahkan jarak di sebelah kiri elemen */
+    font-size: 14px; /* Mengatur ukuran teks */
+}
+  
+footer h5 {
+    margin-bottom: 5px; /* Mengatur jarak di bawah elemen heading */
+}
+  
+footer ul {
+    list-style: none; /* Menghilangkan tanda bullet pada daftar */
+    padding: 0; /* Mengatur padding menjadi nol */
+    margin: 0; /* Mengatur margin menjadi nol */
+}
+  
+footer li {
+    margin-bottom: 5px; /* Mengatur jarak antar elemen daftar */
+    display: flex; /* Mengatur tata letak fleksibel untuk elemen anak */
+    align-items: center; /* Menyelaraskan elemen anak secara vertikal di tengah */
+}
+  
+footer li i {
+    margin-right: 5px; /* Menambahkan jarak antara ikon dan teks */
+}
+  
+footer a {
+    text-decoration: none; /* Menghilangkan garis bawah pada teks tautan */
+    color: #000; /* Mengatur warna teks tautan */
+}
+  
+footer hr {
+    border: 0; /* Menghilangkan batas default pada elemen */
+    height: 1px; /* Mengatur tinggi garis horizontal */
+    background-color: #000; /* Mengatur warna garis horizontal */
+    margin: 10px 0; /* Menambahkan jarak di atas dan bawah elemen */
+}
+  
+footer .copyright {
+    margin-top: 10px; /* Menambahkan jarak di bagian atas elemen */
+    font-size: 12px; /* Mengatur ukuran teks */
+    color: #000; /* Mengatur warna teks */
+}

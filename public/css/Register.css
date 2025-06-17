@@ -1,0 +1,140 @@
+body {
+    font-family: Arial, sans-serif; /* Jenis huruf utama */
+    background: linear-gradient(to bottom, #fff 65%, #00A86B 35%); /* Gradasi warna dari putih ke hijau */
+    background-repeat: no-repeat; /* Agar background tidak diulang */
+    background-attachment: fixed; /* Background tetap saat digulir */
+    margin: 0; /* Hilangkan margin default */
+    padding: 0; /* Hilangkan padding default */
+    display: flex; /* Gunakan Flexbox untuk perataan */
+    justify-content: center; /* Tengahkan secara horizontal */
+    align-items: center; /* Tengahkan secara vertikal */
+    height: 100vh; /* Tinggi 100% dari viewport */
+    position: relative; /* Untuk posisi absolut anak */
+}
+
+.logo-top-left {
+    position: absolute; /* Tempatkan logo secara absolut */
+    top: 20px; /* Jarak dari atas */
+    left: 20px; /* Jarak dari kiri */
+}
+
+.logo-top-left img {
+    width: 80px; /* Ukuran logo */
+}
+
+.container {
+    background-color: white; /* Warna latar kontainer */
+    border-radius: 10px; /* Sudut melengkung */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Bayangan lembut */
+    padding: 50px; /* Padding dalam */
+    width: 450px; /* Lebar tetap kontainer */
+    min-height: 470px; /* Tinggi minimum */
+    text-align: left; /* Rata kiri isi kontainer */
+    display: flex; /* Flexbox */
+    flex-direction: column; /* Elemen ditumpuk ke bawah */
+    justify-content: center; /* Tengahkan isi secara vertikal */
+}
+
+h3 {
+    font-weight: bold; /* Huruf tebal */
+    margin-bottom: 10px; /* Spasi bawah */
+    text-align: center; /* Rata tengah */
+}
+
+p {
+    font-size: 12px; /* Ukuran font kecil */
+    text-align: center; /* Teks rata tengah */
+    margin-bottom: 20px; /* Spasi ke elemen berikutnya */
+}
+
+.input-group {
+    margin-bottom: 20px; /* Spasi antar grup input */
+    width: 100%; /* Lebar penuh */
+    text-align: left; /* Rata kiri */
+}
+
+.input-group label {
+    display: block; /* Label dalam baris baru */
+    font-size: 15px; /* Ukuran label */
+    margin-bottom: 5px; /* Spasi ke input */
+}
+
+.input-group input {
+    width: calc(100% - 40px); /* Lebar input dikurangi padding dan ikon */
+    padding: 12px; /* Padding dalam */
+    border: 1px solid #ccc; /* Garis abu-abu */
+    border-radius: 5px; /* Sudut melengkung */
+    font-size: 15px; /* Ukuran teks */
+}
+
+.input-group .input-icon {
+    position: relative; /* Untuk menempatkan ikon secara absolut */
+    display: flex; /* Gunakan Flexbox */
+    align-items: center; /* Tengahkan ikon secara vertikal */
+}
+
+.input-group .input-icon input {
+    padding-left: 35px; /* Ruang di kiri untuk ikon */
+}
+
+.input-group .input-icon i {
+    position: absolute; /* Tempatkan ikon secara absolut */
+    left: 10px; /* Geser ke kanan dari kiri */
+}
+
+.forgot-password {
+    text-align: right; /* Rata kanan */
+    font-size: 13px; /* Ukuran font kecil */
+    margin-bottom: 20px; /* Spasi bawah */
+}
+
+.forgot-password a {
+    color: #000; /* Warna hitam */
+    text-decoration: none; /* Tanpa garis bawah */
+}
+
+.forgot-password a:hover {
+    text-decoration: underline; /* Garis bawah saat hover */
+}
+
+.button {
+    display: block; /* Blok agar bisa atur width */
+    width: 95%; /* Tombol sepanjang kontainer */
+    background-color: #00A86B; /* Warna latar tombol */
+    border: none; /* Tanpa border */
+    color: #fff; /* Warna teks hitam */
+    padding: 12px; /* Ruang dalam */
+    text-align: center; /* Teks di tengah */
+    text-decoration: none; /* Tidak bergaris bawah */
+    font-size: 16px; /* Ukuran teks */
+    font-weight: bold; /* Teks tebal */
+    cursor: pointer; /* Pointer saat hover */
+    border-radius: 5px; /* Sudut membulat */
+    transition: background-color 0.3s ease, color 0.3s ease; /* Efek transisi hover */
+    margin-top: 10px; /* Jarak dari atas */
+}
+
+.button:hover {
+    background-color: #000; /* Warna tombol saat hover */
+}
+
+.register {
+    margin-top: 25px; /* Spasi atas */
+    font-size: 15px; /* Ukuran teks */
+    text-align: center; /* Rata tengah */
+}
+
+.register a {
+    color: #50C878; /* Warna link */
+    text-decoration: none; /* Tanpa garis bawah */
+}
+
+.register a:hover {
+    text-decoration: underline; /* Garis bawah saat hover */
+}
+
+.password-toggle {
+    cursor: pointer; /* Kursor tangan */
+    position: absolute; /* Posisi absolut untuk dalam input */
+    right: 10px; /* Geser ke kanan */
+}

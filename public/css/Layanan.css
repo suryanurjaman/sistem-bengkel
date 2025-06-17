@@ -1,0 +1,398 @@
+body {
+    margin: 0; /* Menghapus margin default dari elemen */
+    font-family: 'Roboto', sans-serif; /* Mengatur jenis huruf menjadi 'Roboto' dengan fallback ke sans-serif */
+}
+
+ /* Header dengan ikon telepon dan Instagram */
+ .header {
+    background-color: #00A86B; /* Mengatur warna latar belakang elemen */
+    color:#fff ; /* Mengatur warna teks menjadi putih */
+    padding: 5px 20px; /* Menambahkan ruang 5 piksel di atas/bawah dan 20 piksel di kiri/kanan */
+    display: flex; /* Mengaktifkan layout fleksibel untuk elemen anak */
+    justify-content: flex-end; /* Mendistribusikan elemen anak ke sisi kanan kontainer */
+    align-items: center; /* Menyelaraskan elemen anak secara vertikal ke tengah kontainer */
+}
+
+.contact {
+    align-items: center; /* Menyelaraskan elemen anak secara vertikal ke tengah kontainer */
+    font-size: 14px; /* Mengatur ukuran font menjadi 14 piksel */
+}
+
+.contact i {
+    margin-right: 10px; /* Menambahkan margin kanan sebesar 10 piksel */
+}
+    
+/* Navbar */
+nav {
+    background-color: #fff; /* Mengatur warna latar belakang navbar menjadi putih */
+    padding: 10px 20px; /* Memberikan ruang di dalam navbar (atas/bawah 10px, kiri/kanan 20px) */
+    display: flex; /* Menggunakan flexbox untuk tata letak navbar */
+    justify-content: center; /* Mempusatkan konten navbar secara horizontal */
+    align-items: center; /* Menyelaraskan konten secara vertikal di tengah */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Menambahkan bayangan pada navbar */
+}
+
+/* Logo */
+.logo {
+    width: 55px; /* Mengatur lebar logo */
+    height: auto; /* Menjaga proporsi tinggi logo secara otomatis */
+    margin-right: 100px; /* Memberikan jarak antara logo dan menu */
+}
+
+/* Menu */
+.menu {
+    list-style: none; /* Menghapus penanda daftar default */
+    margin: 0; /* Menghapus margin default */
+    padding: 0; /* Menghapus padding default */
+    display: flex; /* Menggunakan flexbox untuk tata letak menu */
+    align-items: center; /* Menyelaraskan item menu secara vertikal */
+}
+
+.menu li {
+    margin-right: 15px; /* Memberikan jarak antara item menu */
+}
+
+.menu li a {
+    text-decoration: none; /* Menghapus garis bawah dari tautan */
+    color: #000; /* Mengatur warna teks menjadi hitam */
+    font-size: 14px; /* Mengatur ukuran font item menu */
+    font-weight: bold; /* Menjadikan teks item menu tebal */
+    padding: 10px 15px; /* Memberikan ruang di dalam tautan (atas/bawah 10px, kiri/kanan 15px) */
+}
+
+/* Hover efek */
+.menu li a:hover {
+    background-color: #50C878; /* Mengubah warna latar belakang saat hover */
+    color: #FFF; /* Mengubah warna teks menjadi putih saat hover */
+    border-radius: 5px; /* Membuat sudut border menjadi melengkung */
+}
+
+/* Kotak di sekitar Masuk/Daftar */
+.menu li.Masuk-Daftar a {
+    border: 2px solid #000; /* Menambahkan batas hitam pada tautan Donasi dan Kontak */
+    border-radius: 5px; /* Membuat sudut batas menjadi melengkung */
+}
+
+.menu li.Masuk-Daftar a:hover {
+    background-color: #50C878; /* Mengubah latar belakang saat hover pada tautan Donasi dan Kontak */
+    color: #FFF; /* Mengatur warna teks menjadi hitam saat hover */
+}
+
+/* Responsif */
+.hamburger {
+    display: none; /* Menyembunyikan tombol hamburger pada tampilan desktop */
+    font-size: 24px; /* Mengatur ukuran font tombol hamburger */
+    cursor: pointer; /* Mengubah kursor menjadi pointer saat hover */
+    position: absolute; /* Menempatkan tombol hamburger secara absolut */
+    top: 50%; /* Memposisikan tombol hamburger di tengah vertikal navbar */
+    right: 20px; /* Mengatur jarak tombol hamburger dari kanan */
+    transform: translateY(-50%); /* Memindahkan tombol hamburger ke atas agar tepat di tengah */
+    z-index: 1000; /* Menempatkan tombol hamburger di atas elemen lain */
+}
+
+@media (max-width: 768px) {
+    nav {
+        flex-direction: column; /* Mengubah tata letak navbar menjadi kolom pada layar kecil */
+        align-items: center; /* Mempusatkan item navbar secara horizontal */
+    }
+
+    .hamburger {
+        display: block; /* Menampilkan tombol hamburger pada tampilan mobile */
+        position: fixed; /* Menjaga tombol tetap di posisi yang sama saat di-scroll */
+        right: 20px;
+        top: 70px; /* Mengatur posisi tombol sedikit ke bawah agar tidak terlalu atas */
+        z-index: 1000; /* Tetap di atas menu */
+    }
+
+    .menu {
+        display: none; /* Menyembunyikan menu pada tampilan mobile secara default */
+        flex-direction: column; /* Mengubah tata letak menu menjadi kolom */
+        width: 90%; /* Mengurangi lebar menu agar tidak memenuhi seluruh layar */
+        align-items: center; /* Mempusatkan item menu secara horizontal */
+        margin: 20px auto; /* Memberikan jarak atas, bawah, dan kiri-kanan pada menu */
+        padding: 10px; /* Memberikan padding di dalam menu */
+        background-color: white; /* Tambahkan latar belakang agar menu terlihat jelas */
+        border-radius: 10px; /* Menambahkan radius agar menu tampak lebih kecil dan menarik */
+        
+        /* Animasi */
+        opacity: 0; /* Awal tidak terlihat */
+        transform: translateY(-20px); /* Awal geser ke atas */
+        transition: opacity 0.3s ease, transform 0.3s ease; /* Animasi transisi */
+    }
+
+    .menu.active {
+        display: flex; /* Menampilkan menu ketika tombol hamburger diklik */
+        position: fixed; /* Menjaga posisi menu tetap di layar */
+        top: 10px; /* Memberikan jarak dari atas layar */
+        left: 0;
+        right: 0;
+        margin: auto;
+        z-index: 999; /* Agar berada di bawah tombol hamburger */
+        overflow-y: auto; /* Mengaktifkan scroll jika menu panjang */
+        height: auto; /* Menyesuaikan tinggi menu */
+        max-height: 90vh; /* Membatasi tinggi maksimal menu */
+        
+        /* Animasi Aktif */
+        opacity: 1; /* Tampilkan menu */
+        transform: translateY(0); /* Geser posisi ke tempat asal */
+    }
+
+    .menu li {
+        margin: 5px 0; /* Memberikan jarak antara item menu saat dalam kolom */
+    }
+
+    .menu li.Masuk-Daftar {
+        margin-top: 25px; /* Jarak khusus untuk Donasi dan Kontak */
+    }
+}
+
+/* Kotak di sekitar Masuk/Daftar */
+.menu li.donasi-kontak a {
+    border: 2px solid #000; /* Memberikan garis tepi pada elemen dengan ketebalan 2 piksel, tipe solid, dan warna hitam */
+    border-radius: 5px; /* Membuat sudut elemen menjadi melengkung dengan radius 5 piksel */
+}
+
+.menu li.donasi-kontak a:hover {
+    background-color: #50C878; /* Mengubah warna latar belakang elemen menjadi hijau saat di-hover */
+    color: #000; /* Mengubah warna teks menjadi hitam saat di-hover */
+}
+
+/* Keterangan Informasi Bengkel */
+.layanan-section {
+    text-align: center; /* Rata tengah teks */
+    margin-top: 40px; /* Jarak atas 40px */
+}
+
+.garis-hr {
+    height: 9px; /* Tinggi garis */
+    background-color: #50C878; /* Warna hijau */
+    margin: 10px auto; /* Jarak vertikal, posisi tengah */
+}
+
+/* Gaya Dasar untuk Promo */
+.promo-spesial {
+    border-radius: 12px; /* Sudut membulat */
+    padding: 30px; /* Ruang dalam */
+    text-align: center; /* Rata tengah teks */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); /* Bayangan ringan */
+    margin-bottom: 20px; /* Jarak bawah 20px */
+    transition: all 0.3s; /* Animasi transisi */
+}
+
+.promo-spesial:hover {
+    transform: translateY(-5px); /* Geser ke atas saat hover */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); /* Bayangan lebih besar saat hover */
+}
+
+.promo-title {
+    font-size: 22px; /* Ukuran font besar */
+    font-weight: 600; /* Font tebal */
+    color: #333; /* Warna abu gelap */
+    margin-bottom: 10px; /* Jarak bawah */
+}
+
+.promo-desc {
+    font-size: 16px; /* Ukuran font sedang */
+    color: #555; /* Warna abu sedang */
+    line-height: 1.5; /* Jarak antar baris */
+    margin-bottom: 15px; /* Jarak bawah */
+}
+
+.promo-highlight {
+    color: #e74c3c; /* Warna merah cerah */
+    font-weight: bold; /* Teks tebal */
+}
+
+.promo-extra {
+    font-size: 14px; /* Ukuran font kecil */
+    font-weight: 500; /* Ketebalan sedang */
+    color: #555; /* Warna hijau terang */
+}
+
+.promo-period {
+    font-size: 14px; /* Ukuran font kecil */
+    color: #888; /* Warna abu terang */
+}
+
+/* Responsive Style */
+@media (max-width: 768px) { /* Untuk layar kecil */
+    .promo-title {
+        font-size: 18px; /* Font judul lebih kecil */
+    }
+
+    .promo-desc,
+    .promo-extra,
+    .promo-period {
+        font-size: 14px; /* Font elemen lebih kecil */
+    }
+}
+
+/* Styling Container Grid */
+.container {
+    display: grid; /* Membuat layout grid */
+    grid-template-columns: repeat(3, 1fr); /* 3 kolom dengan lebar sama */
+    padding: 20px; /* Ruang di dalam kontainer */
+    justify-items: center; /* Posisi elemen di tengah */
+    max-width: 1200px; /* Batas lebar kontainer */
+    margin: auto; /* Pusatkan kontainer */
+}
+
+/* Styling Card */
+.card {
+    background: #50C878; /* Warna latar hijau */
+    width: 300px; /* Lebar kartu */
+    padding: 20px; /* Ruang dalam kartu */
+    border-radius: 10px; /* Sudut kartu membulat */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Bayangan ringan */
+    text-align: center; /* Teks rata tengah */
+    transition: transform 0.3s, box-shadow 0.3s; /* Animasi hover */
+    margin: 10px; /* Jarak antar elemen grid (pengganti gap) */
+}
+
+/* Styling Gambar di Dalam Card */
+.card img {
+    width: 100%; /* Gambar penuh dalam kartu */
+    border-radius: 10px; /* Sudut gambar membulat */
+    margin-bottom: 15px; /* Jarak bawah gambar */
+}
+
+/* Styling Judul Card */
+.card h2 {
+    font-size: 1.5rem; /* Ukuran font judul */
+    margin-bottom: 10px; /* Jarak bawah judul */
+}
+
+/* Styling Deskripsi Card */
+.card p {
+    font-size: 1rem; /* Ukuran font teks */
+    color: #000; /* Warna teks hitam */
+    margin-bottom: 10px; /* Jarak bawah teks */
+}
+
+/* Styling Harga di Card */
+.card .price {
+    font-weight: bold; /* Teks tebal */
+    color: #e74c3c; /* Warna merah untuk harga */
+}
+
+/* Responsif: 2 kolom untuk layar medium */
+@media (max-width: 992px) {
+    .container {
+        grid-template-columns: repeat(2, 1fr); /* Grid dengan 2 kolom */
+    }
+
+    .card {
+        width: 250px; /* Lebar kartu sedikit lebih kecil */
+    }
+}
+
+/* Responsif: 1 kolom untuk layar kecil */
+@media (max-width: 768px) {
+    .container {
+        grid-template-columns: 1fr; /* Grid dengan 1 kolom */
+    }
+
+    .card {
+        width: 90%; /* Lebar kartu menyesuaikan kontainer */
+    }
+}
+
+/* Styling Tombol */
+.button {
+    display: inline-block; /* Elemen dalam garis blok */
+    padding: 10px 15px; /* Ruang dalam tombol */
+    background-color: #00A86B; /* Warna latar tombol */
+    color: white; /* Warna teks putih */
+    text-decoration: none; /* Hilangkan garis bawah teks */
+    border-radius: 5px; /* Sudut tombol membulat */
+    font-weight: bold; /* Teks tebal */
+    transition: background-color 0.3s; /* Animasi perubahan warna */
+}
+
+/* Efek Hover Tombol */
+.button:hover {
+    background-color: #000; /* Warna tombol saat hover menjadi hitam */
+}
+
+/* Efek Hover Card */
+.card:hover {
+    transform: translateY(-10px); /* Kartu bergerak naik saat hover */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Bayangan lebih besar saat hover */
+}
+
+/* Footer */
+footer {
+    background-color: #00A86B; /* Mengatur warna latar belakang elemen */
+    padding: 10px 0; /* Mengatur jarak dalam elemen secara vertikal */
+    text-align: center; /* Mengatur posisi teks di tengah elemen */
+}
+  
+footer .container {
+    display: flex; /* Mengatur tata letak fleksibel untuk elemen anak */
+    justify-content: space-between; /* Mengatur distribusi elemen dengan jarak di antara mereka */
+    align-items: flex-start; /* Menyelaraskan elemen anak di bagian atas */
+    max-width: 1200px; /* Mengatur lebar maksimum elemen */
+    margin: 0 auto; /* Mengatur elemen agar berada di tengah secara horizontal */
+}
+  
+footer .logo {
+    text-align: center; /* Mengatur posisi teks di tengah elemen */
+    margin-top: 10px; /* Mengatur jarak di bagian atas elemen */
+    flex: 1; /* Mengatur elemen agar fleksibel mengambil ruang */
+}
+  
+footer .logo img {
+    width: 80px; /* Mengatur lebar gambar logo */
+    height: auto; /* Mengatur tinggi gambar secara proporsional */
+}
+  
+footer .logo p {
+    margin-top: 5px; /* Mengatur jarak di bagian atas paragraf */
+    font-size: 12px; /* Mengatur ukuran teks */
+}
+  
+footer .info-kontak,
+footer .navigasi-cepat {
+    text-align: left; /* Mengatur posisi teks ke kiri */
+    flex: 1; /* Membuat elemen fleksibel untuk mengambil ruang */
+    margin-left: 40px; /* Menambahkan jarak di sebelah kiri elemen */
+    font-size: 14px; /* Mengatur ukuran teks */
+}
+  
+footer h5 {
+    margin-bottom: 5px; /* Mengatur jarak di bawah elemen heading */
+}
+  
+footer ul {
+    list-style: none; /* Menghilangkan tanda bullet pada daftar */
+    padding: 0; /* Mengatur padding menjadi nol */
+    margin: 0; /* Mengatur margin menjadi nol */
+}
+  
+footer li {
+    margin-bottom: 5px; /* Mengatur jarak antar elemen daftar */
+    display: flex; /* Mengatur tata letak fleksibel untuk elemen anak */
+    align-items: center; /* Menyelaraskan elemen anak secara vertikal di tengah */
+}
+  
+footer li i {
+    margin-right: 5px; /* Menambahkan jarak antara ikon dan teks */
+}
+  
+footer a {
+    text-decoration: none; /* Menghilangkan garis bawah pada teks tautan */
+    color: #000; /* Mengatur warna teks tautan */
+}
+  
+footer hr {
+    border: 0; /* Menghilangkan batas default pada elemen */
+    height: 1px; /* Mengatur tinggi garis horizontal */
+    background-color: #000; /* Mengatur warna garis horizontal */
+    margin: 10px 0; /* Menambahkan jarak di atas dan bawah elemen */
+}
+  
+footer .copyright {
+    margin-top: 10px; /* Menambahkan jarak di bagian atas elemen */
+    font-size: 12px; /* Mengatur ukuran teks */
+    color: #000; /* Mengatur warna teks */
+}

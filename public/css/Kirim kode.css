@@ -1,0 +1,108 @@
+body {
+    font-family: Arial, sans-serif; /* Mengatur jenis font */
+    background: linear-gradient(to bottom, #fff 65%, #00A86B 35%); /* Latar belakang gradien */
+    background-repeat: no-repeat; /* Latar tidak diulang */
+    background-attachment: fixed; /* Tetap saat digulir */
+    margin: 0; /* Menghilangkan margin bawaan */
+    padding: 0; /* Menghilangkan padding bawaan */
+    display: flex; /* Mengaktifkan flexbox */
+    justify-content: center; /* Pusat horizontal */
+    align-items: center; /* Pusat vertikal */
+    height: 100vh; /* Tinggi seluruh layar */
+    position: relative; /* Untuk posisi absolut anak */
+}
+
+.logo-top-left {
+    position: absolute; /* Posisi tetap di layar */
+    top: 20px; /* Jarak dari atas */
+    left: 20px; /* Jarak dari kiri */
+}
+
+.logo-top-left img {
+    width: 80px; /* Ukuran logo */
+}
+
+.container {
+    background-color: white; /* Warna latar putih */
+    border-radius: 10px; /* Sudut membulat */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Bayangan lembut */
+    padding: 50px; /* Ruang dalam kontainer */
+    width: 450px; /* Lebar kotak kontainer */
+    min-height: 470px; /* Tinggi minimal */
+    display: flex; /* Flexbox kolom */
+    flex-direction: column; /* Susun vertikal */
+    justify-content: center; /* Tengah secara vertikal */
+    text-align: left; /* Teks rata kiri */
+}
+
+h3 {
+    font-weight: bold; /* Judul tebal */
+    margin-bottom: 10px; /* Jarak ke bawah */
+    text-align: center; /* Teks di tengah */
+}
+
+p {
+    font-size: 12px; /* Ukuran paragraf */
+    text-align: center; /* Rata tengah */
+    margin-bottom: 20px; /* Jarak ke elemen bawah */
+}
+
+.input-container {
+    display: flex; /* Input sejajar horizontal */
+    justify-content: flex-start; /* Mulai dari kiri */
+    margin-bottom: 20px; /* Jarak bawah */
+}
+
+.input-box {
+    width: 50px; /* Lebar kotak input */
+    height: 50px; /* Tinggi kotak input */
+    border: 1px solid #ccc; /* Garis abu tipis */
+    border-radius: 5px; /* Sudut membulat */
+    text-align: center; /* Angka di tengah */
+    font-size: 20px; /* Ukuran angka */
+    line-height: 50px; /* Pusat vertikal */
+    padding: 0; /* Tanpa padding */
+    margin: 0 50px; /* Jarak antar kotak input */
+    outline: none; /* Hilangkan garis fokus */
+    transition: border-color 0.2s; /* Animasi halus */
+}
+
+/* Mengurangi jarak antar input box selain yang terakhir */
+.input-box:not(:last-child) {
+    margin-right: -5px; /* Menyatukan input agar lebih rapat */
+}
+
+.button {
+    background-color: #00A86B; /* Warna hijau */
+    border: none; /* Tanpa border */
+    color: #fff; /* Teks putih */
+    padding: 10px; /* Ruang dalam */
+    text-align: center; /* Teks di tengah */
+    text-decoration: none; /* Tanpa garis bawah */
+    display: block; /* Lebar penuh */
+    margin-left: 20px; /* Geser ke kanan */
+    font-size: 16px; /* Ukuran teks */
+    cursor: pointer; /* Ubah kursor */
+    border-radius: 5px; /* Sudut membulat */
+    font-weight: bold; /* Huruf tebal */
+    transition: background-color 0.3s ease, color 0.3s ease; /* Efek hover halus */
+}
+
+.button:hover {
+    background-color: #000; /* Warna hitam saat hover */
+}
+
+.resend {
+    margin-top: 15px; /* Jarak atas */
+    font-size: 13px; /* Ukuran teks kecil */
+    text-align: center; /* Rata tengah */
+}
+
+.resend a {
+    color: #50C878; /* Warna hijau segar */
+    text-decoration: none; /* Tanpa garis bawah */
+}
+
+.resend a:hover {
+    text-decoration: underline; /* Garis bawah saat hover */
+}

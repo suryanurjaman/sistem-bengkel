@@ -1,0 +1,142 @@
+body {
+    font-family: Arial, sans-serif; /* Mengatur jenis font */
+    background: linear-gradient(to bottom, #fff 65%, #00A86B 35%); /* Gradien latar belakang */
+    background-repeat: no-repeat; /* Mencegah pengulangan background */
+    background-attachment: fixed; /* Latar tetap saat discroll */
+    margin: 0; /* Menghapus margin default */
+    padding: 0; /* Menghapus padding default */
+    display: flex; /* Mengatur body jadi flex container */
+    justify-content: center; /* Konten ditengah secara horizontal */
+    align-items: center; /* Konten ditengah secara vertikal */
+    height: 100vh; /* Tinggi penuh layar */
+    position: relative; /* Agar elemen child bisa absolute */
+}
+
+/* Posisi logo di kiri atas */
+.logo-top-left {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+}
+
+/* Ukuran logo */
+.logo-top-left img {
+    width: 80px; /* Lebar logo */
+}
+
+/* Kotak utama konten */
+.container {
+    background-color: white; /* Warna latar belakang putih */
+    border-radius: 10px; /* Sudut membulat */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Bayangan halus */
+    padding: 50px; /* Ruang dalam kontainer */
+    width: 450px; /* Lebar card */
+    min-height: 470px; /* Tinggi minimum card */
+    display: flex; /* Flexbox */
+    flex-direction: column; /* Arah vertikal */
+    justify-content: center; /* Konten di tengah secara vertikal */
+}
+
+/* Judul form */
+h3 {
+    font-weight: bold; /* Huruf tebal */
+    margin-bottom: 50px; /* Jarak bawah */
+    text-align: center; /* Tengah */
+}
+
+/* Grup input form */
+.input-group {
+    margin-bottom: 20px; /* Jarak bawah antar input */
+    width: 100%; /* Lebar penuh */
+}
+
+/* Label untuk input */
+.input-group label {
+    display: block; /* Tampil di baris baru */
+    font-size: 15px; /* Ukuran huruf */
+    margin-bottom: 5px; /* Jarak ke input */
+}
+
+/* Input form */
+.input-group input {
+    width: calc(100% - 30px); /* Menyesuaikan lebar dengan padding icon */
+    padding: 12px; /* Ruang dalam */
+    border: 1px solid #ccc; /* Garis abu-abu */
+    border-radius: 5px; /* Sudut membulat */
+    font-size: 15px; /* Ukuran huruf */
+}
+
+/* Wrapper untuk icon dalam input */
+.input-group .input-icon {
+    position: relative; /* Agar icon bisa absolute */
+}
+
+/* Input dengan icon */
+.input-group .input-icon input {
+    padding-left: 35px; /* Memberi ruang untuk icon */
+}
+
+/* Icon di dalam input */
+.input-group .input-icon i {
+    position: absolute; /* Agar bisa diposisikan bebas */
+    left: 10px; /* Geser ke kanan 10px dari kiri */
+    top: 50%; /* Tengah secara vertikal */
+    transform: translateY(-50%); /* Koreksi posisi ke tengah */
+}
+
+/* Link lupa password */
+.forgot-password {
+    text-align: right; /* Geser ke kanan */
+    font-size: 13px; /* Ukuran kecil */
+    margin-bottom: 20px; /* Jarak bawah */
+}
+
+/* Gaya link lupa password */
+.forgot-password a {
+    color: #000; /* Warna hitam */
+    text-decoration: none; /* Tanpa garis bawah */
+}
+
+.forgot-password a:hover {
+    text-decoration: underline; /* Tambah garis bawah saat hover */
+}
+
+/* Tombol aksi seperti login/submit */
+.button {
+    display: block; /* Blok agar bisa atur width */
+    width: 100%; /* Tombol sepanjang kontainer */
+    background-color: #00A86B; /* Warna latar tombol */
+    border: none; /* Tanpa border */
+    color: #fff; /* Warna teks hitam */
+    padding: 12px; /* Ruang dalam */
+    text-align: center; /* Teks di tengah */
+    text-decoration: none; /* Tidak bergaris bawah */
+    font-size: 16px; /* Ukuran teks */
+    font-weight: bold; /* Teks tebal */
+    cursor: pointer; /* Pointer saat hover */
+    border-radius: 5px; /* Sudut membulat */
+    transition: background-color 0.3s ease, color 0.3s ease; /* Efek transisi hover */
+    margin-top: 10px; /* Jarak dari atas */
+}
+
+/* Efek hover tombol */
+.button:hover {
+    background-color: #000; /* Ganti warna saat hover */
+}
+
+/* Teks untuk register */
+.register {
+    margin-top: 25px; /* Jarak atas */
+    font-size: 15px; /* Ukuran huruf */
+    text-align: center; /* Tengah */
+}
+
+/* Link register */
+.register a {
+    color: #50C878; /* Warna link */
+    text-decoration: none; /* Tidak bergaris bawah */
+}
+
+.register a:hover {
+    text-decoration: underline; /* Tambahkan garis bawah saat hover */
+}
