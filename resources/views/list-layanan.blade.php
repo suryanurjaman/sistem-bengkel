@@ -36,6 +36,10 @@
     <div class="servis">
         <h4>Jaga performa motor Anda dengan servis berkualitas di Sahabat Motor Paijo</h4>
         <p>Bengkel terbaik untuk perawatan motor Anda!</p>
-        <a href="booking.html" class="button">Booking Sekarang</a>
+        @auth('pelanggan')
+            <a href="{{ route('booking.create') }}" class="button">Booking Sekarang</a>
+        @else
+            <a href="{{ route('pelanggan.login') }}" class="button">Booking Sekarang</a>
+        @endauth
     </div><br><br>
 @endsection

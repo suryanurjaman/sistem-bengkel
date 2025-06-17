@@ -18,6 +18,8 @@
         images: [
             '{{ asset('img/Banner.jpeg') }}',
             '{{ asset('img/Banner2.jpg') }}',
+            '{{ asset('img/Banner3.jpg') }}',
+            '{{ asset('img/Banner4.jpg') }}',
         ],
         next() {
             this.current = (this.current + 1) % this.images.length;
