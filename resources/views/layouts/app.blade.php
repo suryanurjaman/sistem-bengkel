@@ -15,9 +15,15 @@
     @vite('resources/css/app.css')
 
     @stack('styles')
+
+    @auth('pelanggan')
+        <meta name="pelanggan-id" content="{{ auth('pelanggan')->id() }}">
+    @endauth
+
 </head>
 
-<body>
+<body class="flex flex-col min-h-screen m-0 p-0">
+
 
     {{-- Partial Header --}}
     @include('partials.header')
@@ -26,10 +32,15 @@
     @include('partials.navbar')
 
     {{-- Konten Page --}}
-    @yield('content')
+    <main class="flex-1">
+        @yield('content')
+    </main>
 
     {{-- Partial Footer --}}
     @include('partials.footer')
+
+    @include('components.alert')
+
 
     <!-- JS -->
     <script>
@@ -41,6 +52,11 @@
         }
     </script>
     @stack('scripts')
+
+    @vite(['resources/js/app.js'])
+
 </body>
+
+<script src="https://unpkg.com/flowbite@2.3.0/dist/flowbite.min.js"></script>
 
 </html>

@@ -4,14 +4,18 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\PemesananServisResource\Pages;
 use App\Models\PemesananServis;
-use App\Models\Pelanggan;
-use App\Models\Layanan;
 use App\Models\StatusServis;
+use App\Models\Layanan;
+use App\Models\BarangServis;
+use Filament\Facades\Filament;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Filament\Forms\Components\Tabs;
+use Filament\Forms\Components\Tabs\Tab;
+
 
 class PemesananServisResource extends Resource
 {
@@ -22,96 +26,163 @@ class PemesananServisResource extends Resource
 
     public static function form(Form $form): Form
     {
-        return $form
-            ->schema([
-                // 1. Pilih Pelanggan
-                Forms\Components\Select::make('pelanggan_id')
-                    ->label('Pelanggan')
-                    ->relationship('pelanggan', 'nama_lengkap')
-                    ->searchable()
-                    ->preload()
-                    ->required(),
+        return $form->schema([
+            Tabs::make('Form Pemesanan')
+                ->tabs([
 
-                // 2. Pilih Layanan
-                Forms\Components\Select::make('layanans')
-                    ->label('Layanan')
-                    ->relationship('layanans', 'nama_layanan') // gunakan relasi many-to-many
-                    ->multiple()
-                    ->searchable()
-                    ->preload()
-                    ->required(),
+                    // TAB UTAMA FORMULIR
+                    Tab::make('Formulir')
+                        ->schema([
 
+                            Forms\Components\Select::make('pelanggan_id')
+                                ->label('Pelanggan')
+                                ->relationship('pelanggan', 'nama_lengkap')
+                                ->searchable()
+                                ->preload()
+                                ->disabled(fn($state, $context) => $context !== 'create')
+                                ->required(),
 
-                // 3. Kode Booking (otomatis, disabled)
-                Forms\Components\TextInput::make('kode_booking')
-                    ->label('Kode Booking')
-                    ->disabled()
-                    ->placeholder('Ter‐generate otomatis'),
+                            Forms\Components\TextInput::make('plat_nomor')
+                                ->label('Plat Nomor')
+                                ->disabled(fn($state, $context) => $context !== 'create'),
 
-                // 4. Tanggal Dipesan (otomatis, disabled)
-                Forms\Components\DateTimePicker::make('tanggal_dipesan')
-                    ->label('Tanggal Dipesan')
-                    ->disabled(),
+                            Forms\Components\TextInput::make('jenis_motor')
+                                ->label('Jenis Motor')
+                                ->disabled(fn($state, $context) => $context !== 'create'),
 
-                // 5. Pilih Status dari tabel status_servis
-                Forms\Components\Select::make('status_id')
-                    ->label('Status')
-                    ->relationship('statusServis', 'nama_status')
-                    //->searchable()  tambah searchable jika ingin cari─cari
-                    ->preload()
-                    ->required()
-                    ->reactive(), // WAJIB untuk reaktif ke perubahan live
+                            Forms\Components\Textarea::make('alamat')
+                                ->label('Alamat')
+                                ->disabled(fn($state, $context) => $context !== 'create')
+                                ->columnSpanFull(),
 
-                // 6. Tampilkan keterangan (deskripsi) dari status yang dipilih
-                Forms\Components\Placeholder::make('keterangan_status')
-                    ->label('Deskripsi Status')
-                    ->content(function (callable $get) {
-                        // $get('status_id') akan mengembalikan ID status yang dipilih
-                        $id = $get('status_id');
-                        if (! $id) {
-                            return '- Pilih status terlebih dahulu -';
-                        }
-                        $status = StatusServis::find($id);
-                        return $status
-                            ? $status->keterangan
-                            : '- Status tidak ditemukan -';
-                    }),
+                            Forms\Components\Select::make('layanans')
+                                ->label('Layanan')
+                                ->multiple()
+                                ->options(
+                                    \App\Models\Layanan::all()->mapWithKeys(function ($layanan) {
+                                        return [
+                                            $layanan->id => "{$layanan->nama_layanan} - Rp " . number_format($layanan->harga_jasa),
+                                        ];
+                                    })
+                                )
+                                ->searchable()
+                                ->required()
+                                ->reactive()
+                                ->afterStateUpdated(function ($state, callable $get, callable $set) {
+                                    $currentBarang = $get('barang_per_layanan') ?? [];
+                                    $cleaned = collect($currentBarang)
+                                        ->only($state)
+                                        ->toArray();
 
-                // 7. Keterangan dari pelanggan (readonly)
-                Forms\Components\Textarea::make('keterangan')
-                    ->label('Catatan Pelanggan')
-                    ->disabled()
-                    ->columnSpanFull(),
+                                    $set('barang_per_layanan', $cleaned);
 
-                // 8. Keterangan Admin
-                Forms\Components\Textarea::make('keterangan_admin')
-                    ->label('Catatan Admin')
-                    ->nullable()
-                    ->columnSpanFull(),
+                                    foreach (array_keys($currentBarang) as $layananId) {
+                                        if (! in_array($layananId, $state)) {
+                                            $set("barang_per_layanan.{$layananId}", null);
+                                        }
+                                    }
+                                }),
 
 
-                Forms\Components\TextInput::make('total_harga')
-                    ->label('Harga Final (Manual)')
-                    ->numeric()
-                    ->prefix('Rp')
-                    ->visible(fn(callable $get) => in_array((int) $get('status_id'), [3, 4]))
-                    ->required(fn(callable $get) => in_array((int) $get('status_id'), [3, 4]))
-                    ->reactive(), // agar ikut berubah saat status diganti
+                            Forms\Components\Fieldset::make('Barang per Layanan')
+                                ->schema(
+                                    fn(callable $get) =>
+                                    collect($get('layanans') ?? [])
+                                        ->map(function ($layananId) {
+                                            return Forms\Components\Select::make("barang_per_layanan.{$layananId}")
+                                                ->label("Barang untuk: " . \App\Models\Layanan::find($layananId)?->nama_layanan)
+                                                ->options(\App\Models\BarangServis::where('layanan_id', $layananId)->pluck('nama_barang', 'id'))
+                                                ->required()
+                                                ->reactive();
+                                        })->toArray()
+                                )
+                                ->columns(1)
+                                ->visible(fn(callable $get) => filled($get('layanans'))),
 
-                Forms\Components\Placeholder::make('harga_range')
-                    ->label('Total Estimasi Harga')
-                    ->content(function (callable $get) {
-                        $ids = $get('layanans');
-                        if (!$ids || !is_array($ids)) return '- Pilih layanan terlebih dahulu -';
 
-                        $layanan = \App\Models\Layanan::whereIn('id', $ids);
-                        $min = $layanan->sum('harga_min');
-                        $max = $layanan->sum('harga_max');
 
-                        return 'Rp ' . number_format($min, 0, ',', '.') . ' - Rp ' . number_format($max, 0, ',', '.');
-                    }),
 
-            ]);
+                            Forms\Components\TextInput::make('kode_booking')
+                                ->label('Kode Booking')
+                                ->disabled()
+                                ->placeholder('Ter‐generate otomatis'),
+
+                            Forms\Components\DatePicker::make('tanggal_dipesan')
+                                ->label('Tanggal Dipesan')
+                                ->required()
+                                ->disabled(fn($state, $context) => $context !== 'create'),
+
+                            Forms\Components\DatePicker::make('tanggal_servis')
+                                ->label('Tanggal Servis')
+                                ->required()
+                                ->disabled(fn($state, $context) => $context !== 'create'),
+
+                            Forms\Components\Select::make('status_id')
+                                ->label('Status')
+                                ->relationship('statusServis', 'nama_status')
+                                ->preload()
+                                ->required()
+                                ->reactive(),
+
+                            Forms\Components\Placeholder::make('keterangan_status')
+                                ->label('Deskripsi Status')
+                                ->content(function (callable $get) {
+                                    $id = $get('status_id');
+                                    if (! $id) return '- Pilih status terlebih dahulu -';
+                                    $status = StatusServis::find($id);
+                                    return $status?->keterangan ?? '- Status tidak ditemukan -';
+                                }),
+
+                            Forms\Components\Textarea::make('keterangan')
+                                ->label('Catatan Pelanggan')
+                                ->disabled()
+                                ->columnSpanFull(),
+
+                            Forms\Components\Textarea::make('keterangan_admin')
+                                ->label('Catatan Admin')
+                                ->nullable()
+                                ->disabled(fn() => Filament::auth()->user()?->hasRole('mekanik'))
+                                ->columnSpanFull(),
+
+                            Forms\Components\Textarea::make('catatan_mekanik')
+                                ->label('Catatan Mekanik')
+                                ->nullable()
+                                ->visible(fn() => Filament::auth()->user()?->hasRole('mekanik'))
+                                ->columnSpanFull(),
+
+                            Forms\Components\TextInput::make('total_harga')
+                                ->label('Total Harga')
+                                ->disabled()
+                                ->numeric()
+                                ->prefix('Rp')
+                                ->dehydrated(),
+
+                        ]),
+
+                    // TAB RINCIAN HARGA
+                    Tab::make('Rincian Harga')
+                        ->schema([
+                            Forms\Components\Placeholder::make('rincian_harga')
+                                ->label('Rincian Harga')
+                                ->content(function (callable $get) {
+                                    $layanans = \App\Models\Layanan::whereIn('id', $get('layanans') ?? [])->get();
+                                    $barangIds = collect($get('barang_per_layanan') ?? [])->flatten()->filter()->unique();
+                                    $barangList = \App\Models\BarangServis::whereIn('id', $barangIds)->get();
+
+                                    return new \Illuminate\Support\HtmlString(
+                                        view('filament.partials.rincian-harga', [
+                                            'layanans'   => $layanans,
+                                            'barangList' => $barangList,
+                                        ])->render()
+                                    );
+                                })
+                                ->columnSpanFull()
+                                ->visible(fn(callable $get) => filled($get('layanans')) || filled($get('barang_per_layanan'))),
+
+                        ])
+                ])
+                ->columnSpanFull(),
+        ]);
     }
 
     public static function table(Table $table): Table
@@ -119,43 +190,30 @@ class PemesananServisResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('id')->label('ID')->sortable(),
-                Tables\Columns\TextColumn::make('kode_booking')->label('Booking'),
-
-                // Tampilkan nama pelanggan via relasi
-                Tables\Columns\TextColumn::make('pelanggan.nama_lengkap')->label('Pelanggan'),
-
-                Tables\Columns\TextColumn::make('keterangan')
-                    ->label('Catatan Pelanggan')
-                    ->limit(30),
-
-                Tables\Columns\TextColumn::make('keterangan_admin')
-                    ->label('Catatan Admin')
-                    ->limit(30),
-
-                Tables\Columns\TextColumn::make('total_harga')
-                    ->label('Harga Final')
-                    ->money('IDR', true)
-                    ->alignEnd()
-                    ->sortable(),
-
-                // Tampilkan nama layanan via relasi
-                Tables\Columns\TextColumn::make('layanans.nama_layanan')
-                    ->label('Layanan')
-                    ->badge()
-                    ->separator(', '),
-                Tables\Columns\TextColumn::make('range_harga')
-                    ->label('Harga')
-                    ->sortable(false),
-
-
-                // Tampilkan nama status via relasi
-                Tables\Columns\TextColumn::make('statusServis.nama_status')->label('Status'),
-
-                Tables\Columns\TextColumn::make('tanggal_dipesan')
-                    ->label('Tanggal Dipesan')
-                    ->dateTime('d/m/Y H:i'),
+                Tables\Columns\TextColumn::make('kode_booking')->label('Kode Booking')->searchable(),
+                Tables\Columns\TextColumn::make('pelanggan.nama_lengkap')->label('Pelanggan')->searchable(),
+                Tables\Columns\TextColumn::make('plat_nomor')->label('Plat Nomor')->searchable(),
+                Tables\Columns\TextColumn::make('jenis_motor')->label('Jenis Motor')->searchable(),
+                Tables\Columns\TextColumn::make('alamat')->label('Alamat')->limit(25)->tooltip(fn($record) => $record->alamat),
+                Tables\Columns\TextColumn::make('tanggal_dipesan')->label('Dipesan')->dateTime('d/m/Y H:i')->sortable(),
+                Tables\Columns\TextColumn::make('tanggal_servis')->label('Tanggal Servis')->date('d/m/Y')->sortable(),
+                Tables\Columns\TextColumn::make('layanans.nama_layanan')->label('Layanan')->badge()->separator(', '),
+                Tables\Columns\TextColumn::make('total_harga')->label('Total Harga')->money('IDR', true)->alignEnd()->sortable(),
+                Tables\Columns\TextColumn::make('keterangan')->label('Catatan Pelanggan')->limit(30)->tooltip(fn($record) => $record->keterangan),
+                Tables\Columns\TextColumn::make('keterangan_admin')->label('Catatan Admin')->limit(30)->tooltip(fn($record) => $record->keterangan_admin),
+                Tables\Columns\TextColumn::make('catatan_mekanik')->label('Catatan Mekanik')->limit(30)->tooltip(fn($record) => $record->catatan_mekanik),
+                Tables\Columns\TextColumn::make('statusServis.nama_status')->label('Status')->badge()->colors([
+                    'gray'    => 'Menunggu',
+                    'warning' => 'Diproses',
+                    'success' => 'Selesai',
+                    'danger'  => 'Dibatalkan',
+                ])->icons([
+                    'heroicon-o-clock'    => 'Menunggu',
+                    'heroicon-o-wrench'   => 'Diproses',
+                    'heroicon-o-check'    => 'Selesai',
+                    'heroicon-o-x-circle' => 'Dibatalkan',
+                ])->sortable(),
             ])
-            ->filters([])
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),

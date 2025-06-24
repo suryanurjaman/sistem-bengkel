@@ -43,7 +43,6 @@
         </div>
     </div>
 
-
     <!-- Judul dan Deskripsi -->
     <div class="text-center">
         <h2 class="title">Kenali Bengkel Sahabat Motor Paijo</h2>

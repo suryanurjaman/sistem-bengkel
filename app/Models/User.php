@@ -43,4 +43,14 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function getFilamentName(): string
+    {
+        return $this->name ?? $this->email ?? 'Admin';
+    }
+
+    public function getFilamentAvatarUrl(): ?string
+    {
+        return 'https://ui-avatars.com/api/?name=' . urlencode($this->name ?? 'Admin');
+    }
 }

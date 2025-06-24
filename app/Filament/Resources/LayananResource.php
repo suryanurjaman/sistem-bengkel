@@ -62,6 +62,12 @@ class LayananResource extends Resource
                     ->label('Harga Maksimum')
                     ->numeric()
                     ->required(),
+                    
+                Forms\Components\TextInput::make('harga_jasa')
+                    ->label('Harga Jasa Tetap')
+                    ->numeric()
+                    ->required(),
+
             ]);
     }
 
@@ -95,7 +101,6 @@ class LayananResource extends Resource
                     ->label('Gambar')
                     ->disk('public')
                     ->height(50),
-
 
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Dibuat')

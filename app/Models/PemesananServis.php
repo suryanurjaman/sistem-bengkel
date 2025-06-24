@@ -15,44 +15,40 @@ class PemesananServis extends Model
         'pelanggan_id',
         'plat_nomor',
         'jenis_motor',
-        'kode_booking',
-        'tanggal_dipesan',
+        'alamat',
         'tanggal_servis',
         'status_id',
         'keterangan',
         'keterangan_admin',
+        'catatan_mekanik',
         'total_harga_min',
         'total_harga_max',
         'total_harga',
+        'is_hidden',
+        'tanggal_dipesan',
+        'kode_booking',
     ];
 
     protected $casts = [
         'tanggal_dipesan' => 'datetime',
-        'tanggal_servis' => 'date',
+        'tanggal_servis'  => 'date',
     ];
-
 
     protected static function booted()
     {
-        static::creating(function ($model) {
-            // 1. Generate kode_booking:
-            $today   = now()->format('Ymd'); // misal 20250603
-            $lastNomor = PemesananServis::whereDate('created_at', now()->toDateString())
+        static::creating(function (PemesananServis $m) {
+            // generate kode_booking
+            $today = now()->format('Ymd');
+            $last = PemesananServis::whereDate('created_at', now())
                 ->latest('id')
                 ->value('kode_booking');
-            if (! $lastNomor) {
-                $urut = 1;
-            } else {
-                // asumsi format "SV-20250603-0001"
-                $parts = explode('-', $lastNomor);
-                $urut  = intval(last($parts)) + 1;
-            }
-            $model->kode_booking = 'SV-' . $today . '-' . str_pad($urut, 4, '0', STR_PAD_LEFT);
-            // 2. Set tanggal_dipesan
-            $model->tanggal_dipesan = now();
+            $next = $last
+                ? intval(last(explode('-', $last))) + 1
+                : 1;
+            $m->kode_booking    = 'SV-' . $today . '-' . str_pad($next, 4, '0', STR_PAD_LEFT);
+            $m->tanggal_dipesan = now();
         });
     }
-
 
     public function pelanggan()
     {
@@ -61,20 +57,26 @@ class PemesananServis extends Model
 
     public function layanans()
     {
-        return $this->belongsToMany(Layanan::class, 'layanan_pemesanan');
+        return $this->belongsToMany(
+            Layanan::class,
+            'layanan_pemesanan',
+            'pemesanan_servis_id',
+            'layanan_id'
+        );
     }
 
+    public function barangServis()
+    {
+        return $this->belongsToMany(
+            BarangServis::class,
+            'barang_pemesanan',
+            'pemesanan_servis_id',
+            'barang_servis_id'
+        );
+    }
 
     public function statusServis()
     {
         return $this->belongsTo(StatusServis::class, 'status_id');
-    }
-
-    public function getRangeHargaAttribute(): string
-    {
-        $min = $this->layanans->sum('harga_min');
-        $max = $this->layanans->sum('harga_max');
-
-        return 'Rp ' . number_format($min, 0, ',', '.') . ' - Rp ' . number_format($max, 0, ',', '.');
     }
 }

@@ -21,7 +21,11 @@ class RedirectIfAuthenticated
 
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
-                return redirect(RouteServiceProvider::HOME);
+                return redirect(match ($guard) {
+                    'pelanggan' => route('booking.index'),
+                    'web', null => route('filament.admin.pages.dashboard'),
+                    default => RouteServiceProvider::HOME,
+                });
             }
         }
 

@@ -27,24 +27,26 @@
     </div>
 
     <!-- form status servis -->
-    <div class="status-container">
-        <div class="status-header">
-            <h1>Cek Status Servis Kendaraan</h1>
-            <p>Masukkan kode booking Anda untuk mengetahui status servis kendaraan.</p>
-        </div>
-        <div class="status-form-container">
-            <form id="statusForm">
-                <div class="input-group">
-                    <i class="fas fa-clipboard-check input-icon"></i>
-                    <input type="text" id="bookingCode" class="input-field" placeholder="Masukkan Kode Booking" required>
+    <div class="max-w-4xl mx-auto mt-8 p-6 bg-white border border-green-200 rounded-lg shadow-sm">
+        <h2 class="text-xl font-semibold text-green-800 mb-1">🔍 Cek Status Servis Kendaraan</h2>
+        <p class="text-sm text-gray-600 mb-5">Masukkan kode booking Anda di bawah ini.</p>
+
+        <form id="statusForm" class="flex flex-col sm:flex-row gap-3">
+            <div class="relative flex-1">
+                <input type="text" id="bookingCode"
+                    class="w-full border border-gray-300 rounded-md py-2 pl-10 pr-4 text-sm focus:ring-green-500 focus:border-green-500"
+                    placeholder="Masukkan Kode Booking" required>
+                <div class="absolute inset-y-0 left-0 flex items-center pl-3 text-green-600">
+                    <i class="fas fa-clipboard-check"></i>
                 </div>
-                <button type="button" id="checkStatusButton" class="button">
-                    Cek Status
-                </button>
-            </form>
-            <!-- Div untuk menampilkan hasil status -->
-            <div id="result" class="result"></div>
-        </div>
+            </div>
+            <button type="button" id="checkStatusButton"
+                class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md text-sm transition">
+                Cek Status
+            </button>
+        </form>
+
+        <div id="result" class="mt-6"></div>
     </div>
 @endsection
 
@@ -55,7 +57,7 @@
             const resultDiv = document.getElementById('result');
 
             if (!bookingCode) {
-                resultDiv.innerHTML = '<p class="text-red-600">Silakan masukkan kode booking.</p>';
+                resultDiv.innerHTML = '<p class="text-red-600 mt-3">Silakan masukkan kode booking.</p>';
                 return;
             }
 
@@ -73,28 +75,63 @@
                 .then(data => {
                     if (data.success) {
                         resultDiv.innerHTML = `
-    <div class="text-left bg-green-50 border border-green-200 rounded p-4 text-sm text-green-800">
-        <p><strong>Nama Pelanggan:</strong> ${data.pelanggan}</p>
-        <p><strong>Kode Booking:</strong> ${data.kode}</p>
-        <p><strong>Plat Nomor:</strong> ${data.plat_nomor}</p>
-        <p><strong>Jenis Motor:</strong> ${data.jenis_motor}</p>
-        <p><strong>Layanan:</strong> ${data.layanans.join(', ')}</p>
-        <p><strong>Status:</strong> ${data.status}</p>
-        <p><strong>Keterangan Status:</strong> ${data.status_keterangan}</p>
-        <p><strong>Tanggal Dipesan:</strong> ${data.tanggal}</p>
-        <p><strong>Total Harga Final:</strong> ${data.total_harga}</p>
-        <p><strong>Range Harga:</strong> ${data.total_min} – ${data.total_max}</p>
-        <p><strong>Catatan Pelanggan:</strong> ${data.keterangan}</p>
-        <p><strong>Catatan Admin:</strong> ${data.keterangan_admin}</p>
-    </div>
+<div class="mt-6 border border-green-300 rounded-lg bg-green-50 overflow-hidden">
+  <div class="px-6 py-4 bg-green-100">
+    <h3 class="text-lg font-bold text-green-800">🛠️ Informasi Status Servis</h3>
+    <p class="text-sm text-green-700">Detail pemesanan dan status servis kendaraan Anda</p>
+  </div>
+  <dl class="divide-y divide-green-200 text-sm text-gray-700">
+    ${infoRow("Nama Pelanggan", data.pelanggan)}
+    ${infoRow("Kode Booking", data.kode)}
+    ${infoRow("Tanggal Dipesan", data.tanggal)}
+    ${infoRow("Tanggal Servis", data.tanggal_servis ?? '-')}
+    ${infoRow("Plat Nomor", data.plat_nomor)}
+    ${infoRow("Jenis Motor", data.jenis_motor)}
+    ${infoRow("Alamat", data.alamat ?? '-')}
+    ${infoRow("Status", `<span class="inline-block px-2 py-1 text-white rounded ${getStatusColor(data.status)}">${data.status}</span>`)}
+    ${infoRow("Keterangan Status", data.status_keterangan)}
+    ${infoRow("Layanan Dipilih", `
+            <ul class="list-disc ml-5 space-y-1 text-gray-800">
+              ${data.layanans.map(item => `<li>${item}</li>`).join('')}
+            </ul>`)}
+    ${infoRow("Total Harga Final", data.total_harga)}
+    ${infoRow("Catatan Pelanggan", data.keterangan)}
+    ${infoRow("Catatan Admin", data.keterangan_admin)}
+    ${infoRow("Catatan Mekanik", data.catatan_mekanik ?? '-')}
+  </dl>
+</div>
 `;
                     } else {
-                        resultDiv.innerHTML = `<p class="text-red-600">${data.message}</p>`;
+                        resultDiv.innerHTML = `<p class="text-red-600 mt-3">${data.message}</p>`;
                     }
                 })
                 .catch(() => {
-                    resultDiv.innerHTML = '<p class="text-red-600">Terjadi kesalahan. Silakan coba lagi.</p>';
+                    resultDiv.innerHTML =
+                        '<p class="text-red-600 mt-3">Terjadi kesalahan. Silakan coba lagi.</p>';
                 });
         });
+
+        function getStatusColor(status) {
+            switch (status.toLowerCase()) {
+                case 'menunggu':
+                    return 'bg-gray-500';
+                case 'diproses':
+                    return 'bg-yellow-500';
+                case 'selesai':
+                    return 'bg-green-600';
+                case 'dibatalkan':
+                    return 'bg-red-600';
+                default:
+                    return 'bg-gray-400';
+            }
+        }
+
+        function infoRow(label, value) {
+            return `
+<div class="px-6 py-4 sm:grid sm:grid-cols-3 sm:gap-4">
+    <dt class="font-medium text-gray-900">${label}</dt>
+    <dd class="mt-1 sm:mt-0 sm:col-span-2">${value}</dd>
+</div>`;
+        }
     </script>
 @endpush

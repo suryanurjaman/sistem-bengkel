@@ -42,6 +42,9 @@ class StatusServisController extends Controller
                 'total_max' => 'Rp' . number_format($servis->total_harga_max ?? 0, 0, ',', '.'),
                 'keterangan' => $servis->keterangan ?? '-',
                 'keterangan_admin' => $servis->keterangan_admin ?? '-',
+                'catatan_mekanik' => $servis->catatan_mekanik ?? '-',
+                'alamat' => $servis->alamat ?? '-',
+                'tanggal_servis' => optional($servis->tanggal_servis)->format('d M Y'),
                 'layanans' => $servis->layanans->map(function ($layanan) {
                     return $layanan->nama_layanan . ' (' .
                         'Rp' . number_format($layanan->harga_min, 0, ',', '.') .

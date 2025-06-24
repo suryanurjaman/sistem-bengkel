@@ -37,19 +37,39 @@
 
     <div class="container mx-auto px-6 mt-12 grid grid-cols-1 md:grid-cols-2 gap-10">
         <div class="contact-form-container">
-            <form class="contact-form space-y-4" onsubmit="handleKontak(event)">
+            {{-- Tampilkan notifikasi sukses --}}
+            @if (session('status'))
+                <div class="mb-4 text-green-600 font-semibold">
+                    {{ session('status') }}
+                </div>
+            @endif
+
+            {{-- Form kirim ke backend --}}
+            <form method="POST" action="{{ route('kontak.kirim') }}" class="contact-form space-y-4">
                 @csrf
                 <div>
-                    <label for="name" class="block text-sm font-medium text-gray-700">Nama:</label>
-                    <input type="text" id="name" class="w-full mt-1 rounded border-gray-300" required>
+                    <label for="nama" class="block text-sm font-medium text-gray-700">Nama:</label>
+                    <input type="text" id="nama" name="nama" value="{{ old('nama') }}"
+                        class="w-full mt-1 rounded border-gray-300 @error('nama') border-red-500 @enderror" required>
+                    @error('nama')
+                        <p class="text-red-500 text-sm">{{ $message }}</p>
+                    @enderror
                 </div>
                 <div>
                     <label for="email" class="block text-sm font-medium text-gray-700">Email:</label>
-                    <input type="email" id="email" class="w-full mt-1 rounded border-gray-300" required>
+                    <input type="email" id="email" name="email" value="{{ old('email') }}"
+                        class="w-full mt-1 rounded border-gray-300 @error('email') border-red-500 @enderror" required>
+                    @error('email')
+                        <p class="text-red-500 text-sm">{{ $message }}</p>
+                    @enderror
                 </div>
                 <div>
-                    <label for="message" class="block text-sm font-medium text-gray-700">Pesan:</label>
-                    <textarea id="message" rows="5" class="w-full mt-1 rounded border-gray-300" required></textarea>
+                    <label for="pesan" class="block text-sm font-medium text-gray-700">Pesan:</label>
+                    <textarea id="pesan" name="pesan" rows="5"
+                        class="w-full mt-1 rounded border-gray-300 @error('pesan') border-red-500 @enderror" required>{{ old('pesan') }}</textarea>
+                    @error('pesan')
+                        <p class="text-red-500 text-sm">{{ $message }}</p>
+                    @enderror
                 </div>
                 <button type="submit" class="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded">
                     Kirim
@@ -68,11 +88,5 @@
 @endsection
 
 @push('scripts')
-    <script>
-        function handleKontak(event) {
-            event.preventDefault();
-            alert('Pesan Anda telah dikirim!');
-            event.target.reset();
-        }
-    </script>
+    {{-- Tidak perlu pakai handleKontak JS lagi --}}
 @endpush

@@ -1,172 +1,37 @@
 body {
-    margin: 0; /* Menghapus margin default dari elemen */
-    font-family: 'Roboto', sans-serif; /* Mengatur jenis huruf menjadi 'Roboto' dengan fallback ke sans-serif */
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
 }
 
- /* Header dengan ikon telepon dan Instagram */
- .header {
-    background-color: #00A86B; /* Mengatur warna latar belakang elemen */
-    color:#fff ; /* Mengatur warna teks menjadi putih */
-    padding: 5px 20px; /* Menambahkan ruang 5 piksel di atas/bawah dan 20 piksel di kiri/kanan */
-    display: flex; /* Mengaktifkan layout fleksibel untuk elemen anak */
-    justify-content: flex-end; /* Mendistribusikan elemen anak ke sisi kanan kontainer */
-    align-items: center; /* Menyelaraskan elemen anak secara vertikal ke tengah kontainer */
+/* Header dengan ikon telepon dan Instagram */
+.header {
+    background-color: #00A86B;
+    color: #fff;
+    padding: 5px 20px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
 }
 
 .contact {
-    align-items: center; /* Menyelaraskan elemen anak secara vertikal ke tengah kontainer */
-    font-size: 14px; /* Mengatur ukuran font menjadi 14 piksel */
+    align-items: center;
+    font-size: 14px;
 }
 
 .contact i {
-    margin-right: 10px; /* Menambahkan margin kanan sebesar 10 piksel */
-}
-    
-/* Navbar */
-nav {
-    background-color: #fff; /* Mengatur warna latar belakang navbar menjadi putih */
-    padding: 10px 20px; /* Memberikan ruang di dalam navbar (atas/bawah 10px, kiri/kanan 20px) */
-    display: flex; /* Menggunakan flexbox untuk tata letak navbar */
-    justify-content: center; /* Mempusatkan konten navbar secara horizontal */
-    align-items: center; /* Menyelaraskan konten secara vertikal di tengah */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Menambahkan bayangan pada navbar */
-}
-
-/* Logo */
-.logo {
-    width: 56px; /* Mengatur lebar logo */
-    height: auto; /* Menjaga proporsi tinggi logo secara otomatis */
-    margin-right: 100px; /* Memberikan jarak antara logo dan menu */
-}
-
-/* Menu */
-.menu {
-    list-style: none; /* Menghapus penanda daftar default */
-    margin: 0; /* Menghapus margin default */
-    padding: 0; /* Menghapus padding default */
-    display: flex; /* Menggunakan flexbox untuk tata letak menu */
-    align-items: center; /* Menyelaraskan item menu secara vertikal */
-}
-
-.menu li {
-    margin-right: 15px; /* Memberikan jarak antara item menu */
-}
-
-.menu li a {
-    text-decoration: none; /* Menghapus garis bawah dari tautan */
-    color: #000; /* Mengatur warna teks menjadi hitam */
-    font-size: 14px; /* Mengatur ukuran font item menu */
-    font-weight: bold; /* Menjadikan teks item menu tebal */
-    padding: 10px 15px; /* Memberikan ruang di dalam tautan (atas/bawah 10px, kiri/kanan 15px) */
-}
-
-/* Hover efek */
-.menu li a:hover {
-    background-color: #50C878; /* Mengubah warna latar belakang saat hover */
-    color: #FFF; /* Mengubah warna teks menjadi putih saat hover */
-    border-radius: 5px; /* Membuat sudut border menjadi melengkung */
-}
-
-/* Kotak di sekitar Masuk/Daftar */
-.menu li.Masuk-Daftar a {
-    border: 2px solid #000; /* Menambahkan batas hitam pada tautan Donasi dan Kontak */
-    border-radius: 5px; /* Membuat sudut batas menjadi melengkung */
-}
-
-.menu li.Masuk-Daftar a:hover {
-    background-color: #50C878; /* Mengubah latar belakang saat hover pada tautan Donasi dan Kontak */
-    color: #FFF; /* Mengatur warna teks menjadi hitam saat hover */
-}
-
-/* Responsif */
-.hamburger {
-    display: none; /* Menyembunyikan tombol hamburger pada tampilan desktop */
-    font-size: 24px; /* Mengatur ukuran font tombol hamburger */
-    cursor: pointer; /* Mengubah kursor menjadi pointer saat hover */
-    position: absolute; /* Menempatkan tombol hamburger secara absolut */
-    top: 50%; /* Memposisikan tombol hamburger di tengah vertikal navbar */
-    right: 20px; /* Mengatur jarak tombol hamburger dari kanan */
-    transform: translateY(-50%); /* Memindahkan tombol hamburger ke atas agar tepat di tengah */
-    z-index: 1000; /* Menempatkan tombol hamburger di atas elemen lain */
-}
-
-@media (max-width: 768px) {
-    nav {
-        flex-direction: column; /* Mengubah tata letak navbar menjadi kolom pada layar kecil */
-        align-items: center; /* Mempusatkan item navbar secara horizontal */
-    }
-
-    .hamburger {
-        display: block; /* Menampilkan tombol hamburger pada tampilan mobile */
-        position: fixed; /* Menjaga tombol tetap di posisi yang sama saat di-scroll */
-        right: 20px;
-        top: 70px; /* Mengatur posisi tombol sedikit ke bawah agar tidak terlalu atas */
-        z-index: 1000; /* Tetap di atas menu */
-    }
-
-    .menu {
-        display: none; /* Menyembunyikan menu pada tampilan mobile secara default */
-        flex-direction: column; /* Mengubah tata letak menu menjadi kolom */
-        width: 90%; /* Mengurangi lebar menu agar tidak memenuhi seluruh layar */
-        align-items: center; /* Mempusatkan item menu secara horizontal */
-        margin: 20px auto; /* Memberikan jarak atas, bawah, dan kiri-kanan pada menu */
-        padding: 10px; /* Memberikan padding di dalam menu */
-        background-color: white; /* Tambahkan latar belakang agar menu terlihat jelas */
-        border-radius: 10px; /* Menambahkan radius agar menu tampak lebih kecil dan menarik */
-        
-        /* Animasi */
-        opacity: 0; /* Awal tidak terlihat */
-        transform: translateY(-20px); /* Awal geser ke atas */
-        transition: opacity 0.3s ease, transform 0.3s ease; /* Animasi transisi */
-    }
-
-    .menu.active {
-        display: flex; /* Menampilkan menu ketika tombol hamburger diklik */
-        position: fixed; /* Menjaga posisi menu tetap di layar */
-        top: 10px; /* Memberikan jarak dari atas layar */
-        left: 0;
-        right: 0;
-        margin: auto;
-        z-index: 999; /* Agar berada di bawah tombol hamburger */
-        overflow-y: auto; /* Mengaktifkan scroll jika menu panjang */
-        height: auto; /* Menyesuaikan tinggi menu */
-        max-height: 90vh; /* Membatasi tinggi maksimal menu */
-        
-        /* Animasi Aktif */
-        opacity: 1; /* Tampilkan menu */
-        transform: translateY(0); /* Geser posisi ke tempat asal */
-    }
-
-    .menu li {
-        margin: 5px 0; /* Memberikan jarak antara item menu saat dalam kolom */
-    }
-
-    .menu li.Masuk-Daftar {
-        margin-top: 25px; /* Jarak khusus untuk Donasi dan Kontak */
-    }
-}
-
-/* Kotak di sekitar Donasi dan Kontak */
-.menu li.donasi-kontak a {
-    border: 2px solid #000; /* Mengatur batas elemen dengan ketebalan 2 piksel, tipe solid, dan warna hitam */
-    border-radius: 5px; /* Mengatur sudut elemen menjadi melengkung dengan radius 5 piksel */
-}
-
-.menu li.donasi-kontak a:hover {
-    background-color: #FFC850; /* Mengatur warna latar belakang elemen menjadi hitam */
-    color: #000; /* Mengatur warna teks menjadi putih */
+    margin-right: 10px;
 }
 
 /* Keterangan Informasi Bengkel */
 .booking-section {
-    text-align: center; /* Rata tengah teks */
-    margin-top: 40px; /* Jarak atas 40px */
+    text-align: center;
+    margin-top: 40px;
 }
 
 .garis-hr {
-    height: 9px; /* Tinggi garis */
-    background-color: #50C878; /* Warna hijau */
-    margin: 10px auto; /* Jarak vertikal, posisi tengah */
+    height: 9px;
+    background-color: #50C878;
+    margin: 10px auto;
 }
 
 .form {
@@ -176,7 +41,7 @@ nav {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     width: 100%;
     max-width: 700px;
-    margin: 30px auto; 
+    margin: 30px auto;
 }
 
 h2 {
@@ -190,6 +55,7 @@ label {
     margin-bottom: 5px;
     display: block;
 }
+
 .input-group {
     display: flex;
     align-items: center;
@@ -204,7 +70,9 @@ label {
     margin-right: 10px;
 }
 
-.input-group input, .input-group select, .input-group textarea {
+.input-group input,
+.input-group select,
+.input-group textarea {
     border: none;
     background: transparent;
     width: 100%;
@@ -218,23 +86,18 @@ textarea {
 }
 
 button {
-    background-color: #00A86B; /* Warna latar belakang tombol */
-    color: #fff; /* Warna teks */
-    padding: 10px 20px; /* Ruang di dalam tombol */
-    text-align: center; /* Menyelaraskan teks di tengah */
-    border: none; /* Menghapus batas */
-    border-radius: 5px; /* Membuat sudut melengkung */
-    font-size: 16px; /* Ukuran font dalam piksel */
-    font-weight: bold; /* Teks tebal */
-    cursor: pointer; /* Kursor pointer saat hover */
-    text-decoration: none; /* Menghilangkan garis bawah teks */
-    transition: background-color 0.3s ease; /* Efek transisi pada warna */
-    display: block; /* Membuat tombol menjadi elemen blok */
-    margin: 0 auto; /* Memusatkan tombol secara horizontal */
-}
-
-button:hover {
-    background-color: #000;
+    color: #fff;
+    padding: 10px 20px;
+    text-align: center;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    display: block;
+    margin: 0 auto;
 }
 
 .popup {
@@ -248,6 +111,7 @@ button:hover {
     justify-content: center;
     align-items: center;
 }
+
 .popup-content {
     background: white;
     padding: 20px;
@@ -257,6 +121,7 @@ button:hover {
     width: 90%;
     max-width: 400px;
 }
+
 .check-icon {
     font-size: 40px;
     color: green;
@@ -265,79 +130,79 @@ button:hover {
 
 /* Footer */
 footer {
-    background-color: #00A86B; /* Mengatur warna latar belakang elemen */
-    padding: 10px 0; /* Mengatur jarak dalam elemen secara vertikal */
-    text-align: center; /* Mengatur posisi teks di tengah elemen */
+    background-color: #00A86B;
+    padding: 10px 0;
+    text-align: center;
 }
-  
+
 footer .container {
-    display: flex; /* Mengatur tata letak fleksibel untuk elemen anak */
-    justify-content: space-between; /* Mengatur distribusi elemen dengan jarak di antara mereka */
-    align-items: flex-start; /* Menyelaraskan elemen anak di bagian atas */
-    max-width: 1200px; /* Mengatur lebar maksimum elemen */
-    margin: 0 auto; /* Mengatur elemen agar berada di tengah secara horizontal */
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    max-width: 1200px;
+    margin: 0 auto;
 }
-  
+
 footer .logo {
-    text-align: center; /* Mengatur posisi teks di tengah elemen */
-    margin-top: 10px; /* Mengatur jarak di bagian atas elemen */
-    flex: 1; /* Mengatur elemen agar fleksibel mengambil ruang */
+    text-align: center;
+    margin-top: 10px;
+    flex: 1;
 }
-  
+
 footer .logo img {
-    width: 80px; /* Mengatur lebar gambar logo */
-    height: auto; /* Mengatur tinggi gambar secara proporsional */
+    width: 80px;
+    height: auto;
 }
-  
+
 footer .logo p {
-    margin-top: 5px; /* Mengatur jarak di bagian atas paragraf */
-    font-size: 12px; /* Mengatur ukuran teks */
+    margin-top: 5px;
+    font-size: 12px;
 }
-  
+
 footer .info-kontak,
 footer .navigasi-cepat {
-    text-align: left; /* Mengatur posisi teks ke kiri */
-    flex: 1; /* Membuat elemen fleksibel untuk mengambil ruang */
-    margin-left: 40px; /* Menambahkan jarak di sebelah kiri elemen */
-    font-size: 14px; /* Mengatur ukuran teks */
+    text-align: left;
+    flex: 1;
+    margin-left: 40px;
+    font-size: 14px;
 }
-  
+
 footer h5 {
-    margin-bottom: 5px; /* Mengatur jarak di bawah elemen heading */
+    margin-bottom: 5px;
 }
-  
+
 footer ul {
-    list-style: none; /* Menghilangkan tanda bullet pada daftar */
-    padding: 0; /* Mengatur padding menjadi nol */
-    margin: 0; /* Mengatur margin menjadi nol */
+    list-style: none;
+    padding: 0;
+    margin: 0;
 }
-  
+
 footer li {
-    margin-bottom: 5px; /* Mengatur jarak antar elemen daftar */
-    display: flex; /* Mengatur tata letak fleksibel untuk elemen anak */
-    align-items: center; /* Menyelaraskan elemen anak secara vertikal di tengah */
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
 }
-  
+
 footer li i {
-    margin-right: 5px; /* Menambahkan jarak antara ikon dan teks */
+    margin-right: 5px;
 }
-  
+
 footer a {
-    text-decoration: none; /* Menghilangkan garis bawah pada teks tautan */
-    color: #000; /* Mengatur warna teks tautan */
+    text-decoration: none;
+    color: #000;
 }
-  
+
 footer hr {
-    border: 0; /* Menghilangkan batas default pada elemen */
-    height: 1px; /* Mengatur tinggi garis horizontal */
-    background-color: #000; /* Mengatur warna garis horizontal */
-    margin: 10px 0; /* Menambahkan jarak di atas dan bawah elemen */
+    border: 0;
+    height: 1px;
+    background-color: #000;
+    margin: 10px 0;
 }
-  
+
 footer .copyright {
-    margin-top: 10px; /* Menambahkan jarak di bagian atas elemen */
-    font-size: 12px; /* Mengatur ukuran teks */
-    color: #000; /* Mengatur warna teks */
+    margin-top: 10px;
+    font-size: 12px;
+    color: #000;
 }
 
 #layanans-wrapper .checkbox-group {

@@ -44,8 +44,9 @@ class AuthenticatedSessionController extends Controller
     {
         Auth::guard('pelanggan')->logout();
 
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
+        // Jangan hapus semua session karena bisa keluarkan guard lain
+        $request->session()->forget('pelanggan_login'); // opsional jika kamu simpan session custom
+        $request->session()->regenerateToken(); // tetap penting
 
         return redirect()->route('pelanggan.login');
     }

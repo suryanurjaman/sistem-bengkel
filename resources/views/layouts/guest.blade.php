@@ -7,6 +7,9 @@
     <title>@yield('title', 'Bengkel Sahabat Motor Paijo')</title>
     
     @stack('styles')
+
+    @vite('resources/css/app.css')
+    
 </head>
 
 <body>

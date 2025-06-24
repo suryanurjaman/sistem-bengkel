@@ -2,14 +2,15 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
-use Illuminate\Auth\Authenticatable;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Contracts\Auth\CanResetPassword;
+use Illuminate\Auth\Passwords\CanResetPassword as CanResetPasswordTrait;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 
-class Pelanggan extends Model implements AuthenticatableContract
+class Pelanggan extends Authenticatable implements CanResetPassword
 {
-    use HasFactory, Authenticatable;
+    use HasFactory, Notifiable, CanResetPasswordTrait;
 
     protected $table = 'pelanggans';
 
@@ -26,9 +27,6 @@ class Pelanggan extends Model implements AuthenticatableContract
         'remember_token',
     ];
 
-    /**
-     * Relasi ke PemesananServis (jika diperlukan)
-     */
     public function pemesananServis()
     {
         return $this->hasMany(PemesananServis::class, 'pelanggan_id');

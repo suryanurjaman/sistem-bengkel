@@ -19,6 +19,7 @@ class Layanan extends Model
         'harga_max',
         'kategori_id',
         'gambar',
+        'harga_jasa',
     ];
 
     /**
@@ -35,5 +36,10 @@ class Layanan extends Model
     public function pemesananServices()
     {
         return $this->belongsToMany(PemesananServis::class, 'layanan_pemesanan');
+    }
+
+    public function barangServis()
+    {
+        return $this->hasMany(BarangServis::class);
     }
 }
