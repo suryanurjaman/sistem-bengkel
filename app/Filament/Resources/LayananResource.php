@@ -62,11 +62,22 @@ class LayananResource extends Resource
                     ->label('Harga Maksimum')
                     ->numeric()
                     ->required(),
-                    
+
                 Forms\Components\TextInput::make('harga_jasa')
                     ->label('Harga Jasa Tetap')
                     ->numeric()
                     ->required(),
+
+                Forms\Components\Select::make('tipe_motor')
+                    ->label('Jenis Motor')
+                    ->options([
+                        'gigi' => 'Motor Gigi',
+                        'matic' => 'Motor Matic',
+                        'bebek' => 'Motor Bebek',
+                        'umum' => 'Umum / Semua Jenis',
+                    ])
+                    ->required()
+                    ->native(false),
 
             ]);
     }
@@ -105,6 +116,11 @@ class LayananResource extends Resource
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Dibuat')
                     ->dateTime('d/m/Y H:i'),
+
+                Tables\Columns\TextColumn::make('tipe_motor')
+                    ->label('Jenis Motor')
+                    ->sortable(),
+
             ])
             ->filters([
                 // Contoh filter berdasarkan kategori

@@ -9,6 +9,10 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Tables\Actions\Action;
 use App\Filament\Resources\RekapDataResource\Pages;
+use Malzariey\FilamentDaterangepickerFilter\Filters\DateRangeFilter;
+use Illuminate\Database\Eloquent\Builder;
+use Carbon\Carbon;
+use Filament\Forms\Components\DatePicker;
 
 class RekapDataResource extends Resource
 {
@@ -51,7 +55,25 @@ class RekapDataResource extends Resource
             ->filters([
                 Tables\Filters\SelectFilter::make('status_id')
                     ->label('Status Servis')
-                    ->options(fn() => \App\Models\StatusServis::pluck('nama_status', 'id'))
+                    ->options(fn() => \App\Models\StatusServis::pluck('nama_status', 'id')),
+
+                Tables\Filters\Filter::make('tanggal_servis')
+                    ->form([
+                        DatePicker::make('from')->label('Dari'),
+                        DatePicker::make('until')->label('Sampai'),
+                    ])
+                    ->query(function (Builder $query, array $data): Builder {
+                        if ($data['from'] && $data['until']) {
+                            return $query->whereBetween('tanggal_servis', [
+                                Carbon::parse($data['from'])->startOfDay(),
+                                Carbon::parse($data['until'])->endOfDay(),
+                            ]);
+                        }
+
+                        return $query;
+                    }),
+
+
             ]);
     }
 

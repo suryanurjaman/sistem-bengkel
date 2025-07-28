@@ -58,6 +58,21 @@
 <body>
     <h2>Rekap Servis Bengkel</h2>
 
+    @php
+        $filters = request('tableFilters') ?? [];
+        $from = $filters['tanggal_servis']['from'] ?? null;
+        $until = $filters['tanggal_servis']['until'] ?? null;
+        $status = $filters['status_id']['value'] ?? null;
+        $statusText = $status ? \App\Models\StatusServis::find($status)?->nama_status : 'Semua';
+    @endphp
+
+    <p>
+        <strong>Periode:</strong>
+        {{ $from ? \Carbon\Carbon::parse($from)->translatedFormat('d F Y') : '-' }} -
+        {{ $until ? \Carbon\Carbon::parse($until)->translatedFormat('d F Y') : '-' }}<br>
+        <strong>Status Servis:</strong> {{ $statusText }}
+    </p>
+
     <table>
         <thead>
             <tr>
@@ -105,6 +120,10 @@
                     </td>
                 </tr>
             @endforeach
+            <tr>
+                <td colspan="6" style="text-align: right;"><strong>Total Pendapatan:</strong></td>
+                <td><strong>Rp{{ number_format($data->sum('total_harga'), 0, ',', '.') }}</strong></td>
+            </tr>
         </tbody>
     </table>
 

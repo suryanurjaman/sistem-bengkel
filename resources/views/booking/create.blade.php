@@ -24,35 +24,25 @@
                 <script>
                     window.bookingSuccess = @json(session('booking_success'));
                 </script>
-                <div x-cloak x-data="{ open: true, info: window.bookingSuccess || {} }" x-show="open"
-                    class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                    <div @click.away="open = false"
-                        class="bg-white rounded-lg shadow-lg w-full max-w-md sm:max-w-lg md:max-w-xl p-6 mx-4">
-                        <h2 class="text-xl font-bold mb-4 text-green-600">Booking Berhasil!</h2>
-                        <ul class="space-y-2 text-gray-700 text-sm">
-                            <li><strong>Kode:</strong> <span x-text="info.kode"></span></li>
-                            <li><strong>Tanggal Servis:</strong> <span x-text="info.tanggal_servis"></span></li>
-                            <li><strong>Booking Dibuat:</strong> <span x-text="info.tanggal_dipesan"></span></li>
-                            <li><strong>Status:</strong> <span x-text="info.status"></span></li>
-                            <li><strong>Harga Jasa:</strong> Rp<span x-text="Number(info.jasa).toLocaleString()"></span>
-                            </li>
-                            <li><strong>Harga Barang:</strong> Rp<span x-text="Number(info.barang).toLocaleString()"></span>
-                            </li>
-                            <li><strong>Total:</strong> Rp<span x-text="Number(info.total).toLocaleString()"></span></li>
-                            <li>
-                                <strong>Harga Estimasi:</strong>
-                                Rp<span x-text="Number(info.min).toLocaleString()"></span>
-                                – Rp<span x-text="Number(info.max).toLocaleString()"></span>
-                            </li>
-                        </ul>
-                        <div class="mt-6 text-right">
-                            <button @click="open = false; window.location='{{ route('home') }}'"
-                                class="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded">
-                                OK
-                            </button>
-                        </div>
-                    </div>
-                </div>
+
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        if (window.bookingSuccess?.kode) {
+                            const kode = window.bookingSuccess.kode;
+                            const url = `{{ url('/booking') }}/${kode}/invoice`;
+
+                            setTimeout(() => {
+                                const a = document.createElement('a');
+                                a.href = url;
+                                a.download = '';
+                                a.target = '_blank';
+                                document.body.appendChild(a);
+                                a.click();
+                                a.remove();
+                            }, 1000);
+                        }
+                    });
+                </script>
             @endif
 
             @if ($errors->any())
@@ -101,9 +91,17 @@
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Jenis Motor</label>
-                        <input type="text" name="jenis_motor" value="{{ old('jenis_motor') }}"
+                        <select name="tipe_motor" id="tipe_motor"
                             class="block w-full mt-1 rounded-lg border-gray-300 shadow-sm focus:ring-green-500 focus:border-green-500"
                             required>
+                            <option value="">-- Pilih Jenis Motor --</option>
+                            @foreach ($jenisMotorList as $jenis)
+                                <option value="{{ strtolower($jenis) }}" @selected(strtolower(old('tipe_motor')) == strtolower($jenis))>
+                                    {{ ucfirst($jenis) }}
+                                </option>
+                            @endforeach
+                        </select>
+
                     </div>
 
                     <div class="md:col-span-2">
@@ -126,7 +124,8 @@
                                 </summary>
                                 <div class="px-4 py-3 space-y-2">
                                     @foreach ($kategori->layanans as $layanan)
-                                        <div class="border rounded-md p-3 bg-gray-50 space-y-2">
+                                        <div class="border rounded-md p-3 bg-gray-50 space-y-2 layanan-item"
+                                            data-jenis="{{ strtolower($layanan->tipe_motor) }}">
                                             <div class="flex items-start gap-3">
                                                 <input type="checkbox" name="layanans[]" value="{{ $layanan->id }}"
                                                     class="layanan-checkbox w-5 h-5 mt-1 text-green-600 border-gray-300 rounded focus:ring-green-500"
@@ -224,6 +223,28 @@
                     });
                 });
             });
+
+            const filterInput = document.getElementById('tipe_motor');
+            const layananItems = document.querySelectorAll('.layanan-item');
+
+            function applyFilter() {
+                const selectedJenis = filterInput.value.trim().toLowerCase();
+                layananItems.forEach(item => {
+                    const itemJenis = item.dataset.jenis?.toLowerCase() || '';
+                    if (selectedJenis === '' || itemJenis === selectedJenis) {
+                        item.style.display = '';
+                    } else {
+                        item.style.display = 'none';
+                        // Uncheck layanan & barang kalau disembunyikan
+                        item.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+                    }
+                });
+                updateTotal();
+            }
+
+            filterInput.addEventListener('change', applyFilter);
+            applyFilter(); // langsung filter saat halaman dimuat
+
         });
     </script>
 @endsection

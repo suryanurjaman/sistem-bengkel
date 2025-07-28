@@ -8,6 +8,9 @@ use App\Models\Layanan;
 use App\Models\PemesananServis;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\File;
+
 
 class BookingController extends Controller
 {
@@ -24,16 +27,31 @@ class BookingController extends Controller
 
     public function create()
     {
-        $kategoris = KategoriLayanan::with('layanans')->get();
-        return view('booking.create', compact('kategoris'));
+        $kategoris = KategoriLayanan::with(['layanans.barangServis'])->get();
+
+        $jenisMotorList = Layanan::select('tipe_motor')
+            ->distinct()
+            ->whereNotNull('tipe_motor')
+            ->pluck('tipe_motor');
+
+        return view('booking.create', compact('kategoris', 'jenisMotorList'));
     }
+
+    public function downloadInvoice($kode)
+    {
+        $booking = PemesananServis::where('kode_booking', $kode)->with(['pelanggan', 'layanans', 'barangServis'])->firstOrFail();
+
+        $pdf = Pdf::loadView('pdf.invoice', compact('booking'));
+        return $pdf->download("Invoice-{$booking->kode_booking}.pdf");
+    }
+
 
     public function store(Request $request)
     {
         $data = $request->validate([
             'pelanggan_id' => 'required|exists:pelanggans,id',
             'plat_nomor'   => 'required|string|max:20',
-            'jenis_motor'  => 'required|string|max:100',
+            'tipe_motor'  => 'required|string|max:100',
             'alamat'       => 'required|string|max:255',
             'layanans'     => 'required|array|min:1',
             'layanans.*'   => 'exists:layanan,id',
@@ -55,7 +73,7 @@ class BookingController extends Controller
         $pesan = PemesananServis::create([
             'pelanggan_id'    => $data['pelanggan_id'],
             'plat_nomor'      => $data['plat_nomor'],
-            'jenis_motor'     => $data['jenis_motor'],
+            'jenis_motor'     => $data['tipe_motor'],
             'alamat'          => $data['alamat'],
             'status_id'       => 1,
             'tanggal_dipesan' => now(),
@@ -85,7 +103,7 @@ class BookingController extends Controller
         ]);
 
         session()->flash('alert', 'Booking berhasil diajukan!');
-        return redirect()->route('booking.index');
+        return redirect()->route('booking.create');
     }
 
     public function edit($id)
@@ -105,7 +123,7 @@ class BookingController extends Controller
 
         $data = $request->validate([
             'plat_nomor'   => 'required|string|max:20',
-            'jenis_motor'  => 'required|string|max:100',
+            'tipe_motor'  => 'required|string|max:100',
             'alamat'       => 'required|string|max:255',
             'layanans'     => 'required|array|min:1',
             'layanans.*'   => 'exists:layanan,id',
@@ -126,7 +144,7 @@ class BookingController extends Controller
 
         $booking->update([
             'plat_nomor'      => $data['plat_nomor'],
-            'jenis_motor'     => $data['jenis_motor'],
+            'jenis_motor'     => $data['tipe_motor'],
             'alamat'          => $data['alamat'],
             'tanggal_servis'  => $data['tanggal'],
             'keterangan'      => $data['keterangan'],

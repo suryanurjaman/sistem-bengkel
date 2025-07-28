@@ -22,7 +22,7 @@
                     <div class="service-info">
                         <h2>{{ $layanan->nama_layanan }}</h2>
                         <p><strong>Harga:</strong> RP.{{ $layanan->harga_min }} - RP.{{ $layanan->harga_max }}</p>
-                        <p><strong>Estimasi Tunggu:</strong> 60 - 70 menit</p>
+                        <p><strong>Estimasi Tunggu:</strong>{{ $layanan->estimasi_waktu }}</p>
                         <p><strong>Manfaat: </strong>{{ $layanan->deskripsi }}</p>
                     </div>
                 </div>

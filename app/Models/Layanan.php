@@ -20,6 +20,7 @@ class Layanan extends Model
         'kategori_id',
         'gambar',
         'harga_jasa',
+        'tipe_motor',
     ];
 
     /**

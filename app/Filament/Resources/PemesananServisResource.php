@@ -42,6 +42,18 @@ class PemesananServisResource extends Resource
                                 ->disabled(fn($state, $context) => $context !== 'create')
                                 ->required(),
 
+                            Forms\Components\TextInput::make('nomor_hp_pelanggan')
+                                ->label('Nomor HP / WhatsApp')
+                                ->disabled()
+                                ->reactive()
+                                ->afterStateHydrated(function ($set, $state, callable $get) {
+                                    $pelanggan = \App\Models\Pelanggan::find($get('pelanggan_id'));
+                                    $set('nomor_hp_pelanggan', $pelanggan?->no_hp);
+                                })
+                                ->dehydrated(false) // jangan disimpan ke DB
+                                ->columnSpanFull(),
+
+
                             Forms\Components\TextInput::make('plat_nomor')
                                 ->label('Plat Nomor')
                                 ->disabled(fn($state, $context) => $context !== 'create'),
@@ -92,7 +104,10 @@ class PemesananServisResource extends Resource
                                             return Forms\Components\Select::make("barang_per_layanan.{$layananId}")
                                                 ->label("Barang untuk: " . \App\Models\Layanan::find($layananId)?->nama_layanan)
                                                 ->options(\App\Models\BarangServis::where('layanan_id', $layananId)->pluck('nama_barang', 'id'))
-                                                ->required()
+                                                ->required(fn() => \App\Models\BarangServis::where('layanan_id', $layananId)->exists())
+                                                ->hint(fn() => \App\Models\BarangServis::where('layanan_id', $layananId)->exists()
+                                                    ? null
+                                                    : 'Layanan ini tidak memerlukan barang pendukung')
                                                 ->reactive();
                                         })->toArray()
                                 )
@@ -119,9 +134,12 @@ class PemesananServisResource extends Resource
 
                             Forms\Components\Select::make('status_id')
                                 ->label('Status')
-                                ->relationship('statusServis', 'nama_status')
-                                ->preload()
+                                ->options(
+                                    \App\Models\StatusServis::whereIn('id', [2, 3, 4, 5])->pluck('nama_status', 'id')->toArray()
+                                )
                                 ->required()
+                                ->searchable()
+                                ->preload()
                                 ->reactive(),
 
                             Forms\Components\Placeholder::make('keterangan_status')
@@ -192,6 +210,9 @@ class PemesananServisResource extends Resource
                 Tables\Columns\TextColumn::make('id')->label('ID')->sortable(),
                 Tables\Columns\TextColumn::make('kode_booking')->label('Kode Booking')->searchable(),
                 Tables\Columns\TextColumn::make('pelanggan.nama_lengkap')->label('Pelanggan')->searchable(),
+                Tables\Columns\TextColumn::make('pelanggan.no_hp')
+                    ->label('No HP')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('plat_nomor')->label('Plat Nomor')->searchable(),
                 Tables\Columns\TextColumn::make('jenis_motor')->label('Jenis Motor')->searchable(),
                 Tables\Columns\TextColumn::make('alamat')->label('Alamat')->limit(25)->tooltip(fn($record) => $record->alamat),
@@ -202,22 +223,35 @@ class PemesananServisResource extends Resource
                 Tables\Columns\TextColumn::make('keterangan')->label('Catatan Pelanggan')->limit(30)->tooltip(fn($record) => $record->keterangan),
                 Tables\Columns\TextColumn::make('keterangan_admin')->label('Catatan Admin')->limit(30)->tooltip(fn($record) => $record->keterangan_admin),
                 Tables\Columns\TextColumn::make('catatan_mekanik')->label('Catatan Mekanik')->limit(30)->tooltip(fn($record) => $record->catatan_mekanik),
-                Tables\Columns\TextColumn::make('statusServis.nama_status')->label('Status')->badge()->colors([
-                    'gray'    => 'Menunggu',
-                    'warning' => 'Diproses',
-                    'success' => 'Selesai',
-                    'danger'  => 'Dibatalkan',
-                ])->icons([
-                    'heroicon-o-clock'    => 'Menunggu',
-                    'heroicon-o-wrench'   => 'Diproses',
-                    'heroicon-o-check'    => 'Selesai',
-                    'heroicon-o-x-circle' => 'Dibatalkan',
-                ])->sortable(),
+
+                Tables\Columns\TextColumn::make('statusServis.nama_status')
+                    ->label('Status')
+                    ->badge()
+                    ->colors([
+                        'gray'    => 'Menunggu antrian',
+                        'warning' => 'Sedang dikerjakan',
+                        'success' => 'Selesai',
+                    ])
+                    ->icons([
+                        'heroicon-o-clock'  => 'Menunggu antrian',
+                        'heroicon-o-wrench' => 'Sedang dikerjakan',
+                        'heroicon-o-check'  => 'Selesai',
+                    ])
+                    ->sortable(),
+
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
+
+                Tables\Actions\Action::make('cetak_invoice')
+                    ->label('Cetak Invoice')
+                    ->icon('heroicon-o-document-text')
+                    ->color('gray')
+                    ->url(fn($record) => route('invoice.cetak', $record)) // ⬅️ ini akan jalan sekarang
+                    ->openUrlInNewTab(),
+
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),

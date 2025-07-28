@@ -116,6 +116,9 @@ Route::put('/booking/{id}', [BookingController::class, 'update'])
 
 Route::put('/booking/{id}/cancel', [BookingController::class, 'cancel'])->name('booking.cancel');
 
+Route::get('/booking/{kode}/invoice', [\App\Http\Controllers\BookingController::class, 'downloadInvoice'])->name('booking.invoice');
+
+
 
 // Sembunyikan bookingan
 Route::post('/booking/{id}/hide', [BookingController::class, 'hide'])
@@ -170,3 +173,8 @@ Route::delete('/notifikasi/{id}', function ($id) {
 Route::get('/rekap-bengkel/export-pdf', [RekapController::class, 'exportPdf'])
     ->name('rekap.export.pdf')
     ->middleware(['auth']); // cukup pakai auth aja
+
+// Cetak invoice via panel admin Filament
+Route::get('/admin/invoice/{pemesananServis}/cetak', [RekapController::class, 'exportSingleInvoice'])
+    ->name('invoice.cetak')
+    ->middleware(['auth']);
