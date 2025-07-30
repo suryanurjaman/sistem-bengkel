@@ -57,9 +57,12 @@
 
 <body>
     <h2>Rekap Servis Bengkel</h2>
-
+    
     @php
-        $filters = request('tableFilters') ?? [];
+        // Baris ini dihapus karena $filters sudah dikirim dari controller
+        // $filters = request('tableFilters') ?? [];
+
+        // Langsung gunakan variabel $filters yang sudah ada
         $from = $filters['tanggal_servis']['from'] ?? null;
         $until = $filters['tanggal_servis']['until'] ?? null;
         $status = $filters['status_id']['value'] ?? null;

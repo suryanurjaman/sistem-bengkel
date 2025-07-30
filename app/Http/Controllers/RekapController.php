@@ -38,7 +38,7 @@ class RekapController extends Controller
         }
 
         $data = $query->get();
-
+        
         // Kirim juga $filters ke PDF view biar bisa ditampilkan infonya
         $pdf = Pdf::loadView('pdf.rekap-servis', compact('data', 'filters'));
         return $pdf->download('rekap-servis-bengkel.pdf');
