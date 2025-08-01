@@ -3,8 +3,8 @@
 namespace App\Filament\Resources\RekapDataResource\Pages;
 
 use App\Filament\Resources\RekapDataResource;
-use Filament\Resources\Pages\ListRecords;
 use Filament\Actions\Action;
+use Filament\Resources\Pages\ListRecords;
 
 class ListRekapData extends ListRecords
 {
@@ -17,7 +17,16 @@ class ListRekapData extends ListRecords
                 ->label('Cetak PDF')
                 ->icon('heroicon-o-printer')
                 ->url(function () {
-                    $query = request()->query();
+                    // Ambil semua filter aktif dari tabel
+                    $filters = $this->getTable()->getFilters();
+
+                    // Buat array query dengan format 'tableFilters[nama_filter]=nilai'
+                    $query = [];
+                    foreach ($filters as $filter) {
+                        $query["tableFilters[{$filter->getName()}]"] = $filter->getState();
+                    }
+
+                    // Gabungkan query string dengan route
                     return route('rekap.export.pdf', $query);
                 })
                 ->openUrlInNewTab(),

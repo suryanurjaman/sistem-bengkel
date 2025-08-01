@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\PemesananServis;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class RekapController extends Controller
 {
@@ -17,12 +18,12 @@ class RekapController extends Controller
             'barangServis',
         ]);
 
-        // Ambil semua query
+        // Ambil semua query, sekarang formatnya lebih terjamin
         $filters = $request->query('tableFilters', []);
 
         // === Filter: Status Servis ===
         $statusId = data_get($filters, 'status_id.value');
-        if (!empty($statusId)) {
+        if ($statusId !== null) { // Gunakan pengecekan yang lebih ketat
             $query->where('status_id', $statusId);
         }
 
@@ -30,21 +31,19 @@ class RekapController extends Controller
         $from = data_get($filters, 'tanggal_servis.from');
         $until = data_get($filters, 'tanggal_servis.until');
 
-        if (!empty($from) && !empty($until)) {
+        if ($from !== null && $until !== null) { // Gunakan pengecekan yang lebih ketat
             $query->whereBetween('tanggal_servis', [
-                \Carbon\Carbon::parse($from)->startOfDay(),
-                \Carbon\Carbon::parse($until)->endOfDay(),
+                Carbon::parse($from)->startOfDay(),
+                Carbon::parse($until)->endOfDay(),
             ]);
         }
 
         $data = $query->get();
-        
+
         // Kirim juga $filters ke PDF view biar bisa ditampilkan infonya
         $pdf = Pdf::loadView('pdf.rekap-servis', compact('data', 'filters'));
         return $pdf->download('rekap-servis-bengkel.pdf');
     }
-
-    // app/Http/Controllers/RekapController.php
 
     public function exportSingleInvoice(\App\Models\PemesananServis $pemesananServis)
     {
